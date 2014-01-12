@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "Example";
+}
+
+To: @ViewBag.To
+From: trasproject@gmail.com
+Subject: TRAS Registration Confirmation 
+
+Hello,
+
+Please click the following address to confirm your registration:
+
+@string.Format("http://localhost:2036/Account/RegisterConfirmation/{0}", @ViewBag.ConfirmationToken);    
