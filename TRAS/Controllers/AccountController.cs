@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using TRAS.Models;
+using Postal;
+using System.Data.Entity;
 
 namespace TRAS.Controllers
 {
@@ -46,7 +48,7 @@ namespace TRAS.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindAsync(model.UserName, model.Password);
-                if (user != null)
+                if (user != null && user.IsConfirmed)
                 {
                     await SignInAsync(user, model.RememberMe);
                     return RedirectToLocal(returnUrl);
@@ -69,6 +71,20 @@ namespace TRAS.Controllers
             return View();
         }
 
+        private string CreateConfirmationToken()
+        {
+            return ShortGuid.NewGuid();
+        }
+
+        private void SendEmailConfirmation(string to, string username, string confirmationToken)
+        {
+            dynamic email = new Email("EmailTemplate");
+            email.To = to;
+            email.UserName = username;
+            email.ConfirmationToken = confirmationToken;
+            email.Send();
+        }
+
         //
         // POST: /Account/Register
         [HttpPost]
@@ -78,12 +94,21 @@ namespace TRAS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.UserName };
+                var confirmationToken = CreateConfirmationToken();
+                var user = new ApplicationUser() 
+                { 
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    ConfirmationToken = confirmationToken,
+                    IsConfirmed = false
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    SendEmailConfirmation(model.Email, model.UserName, confirmationToken);
+                    //await SignInAsync(user, isPersistent: false);
+                    //return RedirectToAction("Index", "Home");
+                    return RedirectToAction("RegisterStepTwo", "Account");
                 }
                 else
                 {
@@ -93,6 +118,52 @@ namespace TRAS.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [AllowAnonymous]
+        public ActionResult RegisterStepTwo()
+        {
+            return View();
+        }
+        
+
+        private bool ConfirmAccount(string confirmationToken, out ApplicationUser user)
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+            user = context.Users.SingleOrDefault(u => u.ConfirmationToken == confirmationToken);
+            if (user != null)
+            {
+                user.IsConfirmed = true;
+                DbSet<ApplicationUser> dbSet = context.Set<ApplicationUser>();
+                dbSet.Attach(user);
+                context.Entry(user).State = EntityState.Modified;
+                context.SaveChanges();
+
+                return true;
+            }
+            return false;
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> RegisterConfirmation(string Id)
+        {
+            ApplicationUser user = null;
+            if (ConfirmAccount(Id, out user))
+            {
+                await SignInAsync(user, true);
+                return RedirectToAction("ConfirmationSuccess");
+            }
+            return RedirectToAction("ConfirmationFailure");
+        }
+
+        public ActionResult ConfirmationSuccess()
+        {
+            return View();
+        }
+
+        public ActionResult ConfirmationFailure()
+        {
+            return View();
         }
 
         //
