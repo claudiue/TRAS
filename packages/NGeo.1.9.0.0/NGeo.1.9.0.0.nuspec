@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>NGeo</id>
+    <version>1.9.0.0</version>
+    <title>NGeo</title>
+    <authors>Dan Ludwig,  John Meyer</authors>
+    <owners>Dan Ludwig,  John Meyer</owners>
+    <licenseUrl>http://opensource.org/licenses/MS-PL</licenseUrl>
+    <projectUrl>https://github.com/danludwig/NGeo</projectUrl>
+    <iconUrl>http://www.gravatar.com/avatar/2b36e5d2ac5fe3c2377466dd98c62d52.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NGeo is a client library that makes it easier to invoke
+      GeoNames, Yahoo! GeoPlanet, and Yahoo! PlaceFinder services from .NET code.</description>
+    <releaseNotes>NGeo is a client library that makes it easier to invoke
+      GeoNames, Yahoo! GeoPlanet, and Yahoo! PlaceFinder services from .NET code.
+      Version 1.9.0 adds support for GeoPlanet's Search API endpoint.</releaseNotes>
+    <copyright>Copyright © UCosmic Consortium 2012</copyright>
+    <language />
+    <tags>GeoNames GeoPlanet PlaceFinder Yahoo</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="4.5.11" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.ServiceModel" targetFramework="" />
+    </frameworkAssemblies>
+  </metadata>
+</package>
