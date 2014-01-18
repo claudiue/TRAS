@@ -52,5 +52,24 @@ namespace WebServices
                 return res;
             }
         }
+
+        public ReadOnlyCollection<Toponym> FindNearBy(double lat, double lng)
+        {
+            using (var geoNamesClient = new NGeo.GeoNames.GeoNamesClient())
+            {
+                NearbyPlaceNameFinder finder =
+                    new NearbyPlaceNameFinder()
+                    {
+                        Latitude = lat,
+                        Longitude = lng,
+                        UserName = Constants.GeoNamesUsername,
+                        Language = "EN",
+                        RadiusInKm = 5,
+                        MaxRows = 100
+                    };
+                var res = geoNamesClient.FindNearbyPlaceName(finder);
+                return res;
+            }
+        }
     }
 }
