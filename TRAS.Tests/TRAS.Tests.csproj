@@ -113,7 +113,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Graph\TripleStore.csproj">
+    <ProjectReference Include="..\TripleStore\TripleStore.csproj">
       <Project>{9bc77998-4e58-4514-86ff-ca0b0cd012d7}</Project>
       <Name>TripleStore</Name>
     </ProjectReference>

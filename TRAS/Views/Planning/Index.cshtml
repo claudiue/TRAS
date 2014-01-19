@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@section planningScript{
+    <script src="~/Scripts/app/test.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+}
+    <h2>Index</h2>
+
+    <div>
+        <p>Hello</p>
+        <form>
+            <input type="text" id="itemValue" name="add" />
+            <input type="button" id="addItemBtn" value="Add">
+        </form>
+
+        <input type="checkbox" name="order" value="order"> Order
+    </div>
+
+    <div id="divItems">
+        <ul id="listItems" @*style="list-style-image: url(../../Content/images/move.jpg) "*@></ul>
+    </div>
+
+    <input type="button" id="showMap" value="Show map">
+    <input type="button" id="drawRoute" value="Route">
+<div id="map" style="height:700px; width:700px"></div>

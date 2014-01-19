@@ -41,15 +41,33 @@ namespace TRAS.Tests.TripleStore.Stardog
 
             var s = g.CreateUriNode(UriFactory.Create("foaf:Person"));
             var p = g.CreateUriNode(UriFactory.Create("foaf:name"));
-            var o = g.CreateLiteralNode("John");
+            var o = g.CreateLiteralNode("David Banner");
 
             Triple t = new Triple(s, p, o);
 
             g.Assert(t);
 
             connector.SaveGraph(g);
+        }
 
+        [TestMethod]
+        public void AddUserProperties()
+        {
+            StardogManager manager = new StardogManager();
+            StardogConnector connector = manager.GetConnector("users");
 
+            IGraph g = new Graph();
+            connector.LoadGraph(g, new Uri("http://users.tras.com/"));
+
+            var s = g.CreateUriNode(UriFactory.Create("foaf:Person"));
+            var p = g.CreateUriNode(UriFactory.Create("foaf:name"));
+            var o = g.CreateLiteralNode("John Doe");
+
+            Triple t = new Triple(s, p, o);
+
+            g.Assert(t);
+
+            connector.SaveGraph(g);
         }
     }
 }

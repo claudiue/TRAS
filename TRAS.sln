@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRAS.Tests", "TRAS.Tests\TR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServices", "WebServices\WebServices.csproj", "{D9368DAA-9898-4247-A50F-E04F59BDFDEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TripleStore", "Graph\TripleStore.csproj", "{9BC77998-4E58-4514-86FF-CA0B0CD012D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TripleStore", "TripleStore\TripleStore.csproj", "{9BC77998-4E58-4514-86FF-CA0B0CD012D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
