@@ -7,6 +7,6 @@ namespace TRAS.Models.ViewModels
 {
     public class SearchViewModel
     {
-        public string Query { get; set; }
+        public string Query { get; set; } 
     }
 }

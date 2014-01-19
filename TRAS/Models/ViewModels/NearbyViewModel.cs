@@ -8,6 +8,6 @@ namespace TRAS.Models.ViewModels
     public class NearbyViewModel
     {
         public double Lat { get; set; }
-        public double Lng { get; set; }
+        public double Lng { get; set; } 
     }
 }
