@@ -11,28 +11,31 @@
  
     <div class="container">
 
-        <div>
-            <input type="text" id="itemValue" name="add" />
-            <input type="button" id="addItemBtn" value="Add">
-        </div>
+        <section>
+            <section class="col-md-3">
+                <div class="row">
+                    <input type="text" id="itemValue" name="add" />
+                    <input type="button" id="addItemBtn" value="Add">
+                </div>
+                <div id="divItems" class="row">
+                    <ul id="listItems" @*style="list-style-image: url(../../Content/images/move.jpg) "*@></ul>
+                </div>
+                <div class="row">
+                    <input type="button" id="showMap" value="Show map">
+                    <input type="button" id="drawRoute" value="Route">
+                </div>
+            </section>
+
+            <section class="col-md-9">
+                <div class="row">
+                    <div id="map" style="height:500px"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">Visual RDF</div>
+                </div>
+            </section>
+        </section>
         
-        <section class="col-md-3">
-            <div id="divItems">
-                <ul id="listItems" @*style="list-style-image: url(../../Content/images/move.jpg) "*@></ul>
-            </div>
-            <input type="button" id="showMap" value="Show map">
-            <input type="button" id="drawRoute" value="Route">
-        </section>
-
-        <section class="col-md-9">
-            <div class="row">
-                <div id="map" style="height:500px" ></div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">Visual RDF</div>
-            </div>
-        </section>
-
     </div>
 
 
