@@ -35,7 +35,7 @@ namespace TripleStore.Stardog
         }
 
         public StardogConnector GetConnector(string database, StardogReasoningMode reasoningMode = StardogReasoningMode.None)
-        {
+         {
             if (string.IsNullOrEmpty(database))
             {
                 return null;
