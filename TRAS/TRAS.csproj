@@ -215,6 +215,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\app\Planning\planningMain.js" />
     <Content Include="Scripts\app\Planning\planningModules.js" />
+    <Content Include="Scripts\app\Search\search.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -267,7 +268,7 @@
     <Content Include="Views\Account\ConfirmationSuccess.cshtml" />
     <Content Include="Views\Account\ConfirmationFailure.cshtml" />
     <Content Include="Views\Emails\EmailTemplate.cshtml" />
-    <Content Include="Views\Planning\Index.cshtml" />
+    <Content Include="Views\Home\Planning\Index.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
