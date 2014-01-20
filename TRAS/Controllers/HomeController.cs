@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TRAS.Models;
+using TRAS.Models.ViewModels;
+using WebServices;
 
 namespace TRAS.Controllers
 {
@@ -35,6 +37,13 @@ namespace TRAS.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult Search(SearchViewModel model)
+        {
+            var spots = new GeoNamesAgent().SearchSpots(model.Query, "json");
+            return Json(spots);
         }
     }
 }
