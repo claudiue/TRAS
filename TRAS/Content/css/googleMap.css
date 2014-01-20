@@ -1,0 +1,16 @@
+﻿
+.search {
+    margin-top: 35px;
+}
+
+#listItems {
+    list-style: none;
+}
+
+.item {
+}
+
+.handle {
+    float:left;
+    margin-right:10px;
+}

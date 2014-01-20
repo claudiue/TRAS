@@ -1,15 +1,5 @@
 ﻿
-$(document).ready(function () {
-    $("#listItems").sortable({
-        handle: '.handle',
-        update: function () {
-            var order = $('#listItems').sortable('serialize');
-            //$("#info").load("process-sortable.php?" + order);
-        }
-    });
-});
-
-var module = (function () {
+var listManager = (function () {
 
     var itemsList = [];
 
@@ -27,7 +17,7 @@ var module = (function () {
             elem = document.createElement("li"),
             img = document.createElement('img');
 
-        var item = document.createElement("div"),
+        var //item = document.createElement("div"),
             text = document.createElement("p"),
             removeBtn = document.createElement("button");
 
@@ -35,32 +25,24 @@ var module = (function () {
         img.setAttribute('class', 'handle');
 
         var itemValue = getItem();
+        text.setAttribute('class', '');
         text.innerText = itemValue;
         itemsList.push(itemValue);
 
         removeBtn.innerText = 'x';
         //removeBtn.setAttribute("id", "removeItemBtn"); ??unique
 
-        item.appendChild(text);
-        item.appendChild(img);
-        elem.appendChild(item);
+        elem.setAttribute('class', 'item');
+        elem.appendChild(img);
+        elem.appendChild(text);
+        
+        //elem.appendChild(item);
         //elem.appendChild(img);
         list.appendChild(elem);
 
         $("#divItems").append(list);
         clearInput("#itemValue");
     }
-
-    //$(document).ready(function () {
-    //    $("#listItems").sortable({
-    //        handle: '.handle',
-    //        update: function () {
-    //            var order = $('#listItems').sortable('serialize');
-    //            //$("#info").load("process-sortable.php?" + order);
-    //        }
-    //    });
-    //});
-
 
     function addItem() {
         if (getItem() != "") {
@@ -70,36 +52,36 @@ var module = (function () {
 
     return {
         itemsList: itemsList,
-        addItem: addItem
+        addItem: addItem,
+        getItem: getItem
     }
 })();
 
-var mapModule = (function () {
+var mapManager = (function () {
 
     var map;
+    var flightPath;
 
     function showMap() {
 
-        //$("p").hide();
-
+        if (flightPath !== undefined) {
+            flightPath.setMap(null); // remove the line
+        }
         var mapOptions = {
             zoom: 8,
             center: new google.maps.LatLng(-34.397, 150.644)
         };
 
-        map = new google.maps.Map(document.getElementById('map'),
-            mapOptions);
+        map = new google.maps.Map(document.getElementById('map'), mapOptions);
     }
 
-    function drawLine() {
+    function drawPath() {
 
-        var list = module.itemsList,
+        var list = listManager.itemsList,
             flightPlanCoordinates = [],
-            geocoder = new google.maps.Geocoder(),
-            flightPath;
+            geocoder = new google.maps.Geocoder();
 
         console.log(list);
-        //flightPath.setMap(null); // remove the line
         for (var i = 0; i < list.length; i++) {
             var address = list[i];
 
@@ -137,24 +119,61 @@ var mapModule = (function () {
 
     return {
         showMap: showMap,
-        drawLine: drawLine
+        drawPath: drawPath
     }
 })();
 
-$("#addItemBtn").click(function () {
-    module.addItem();
-});
+var jqManager = (function () {
 
-$("#removeItemBtn").click(function () {
-    //module.removeItem();
-});
+    
+    function sendItem(item) {
 
-$("#showMap").click(function () {
-    mapModule.showMap();
-});
+        $.ajax({
+            type: "POST",
+            url: '../Planning/Search/',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ query: item }),
+            success: function (data, textStatus, jqXHR) {
 
-$("#drawRoute").click(function () {
-    mapModule.drawLine();
-});
+                console.log(data);
+                //toponymsManager.addToponym(item, data, 0);
+                
+                //$('#feature').html(JSON.stringify(data, null, 4));
 
 
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                var resp = JSON.parse(jqXHR.responseText);
+                alert(errorThrown);
+            }
+        });
+    }
+
+    return {
+        sendItem: sendItem
+    }
+})();
+
+var toponymsManager = (function () {
+    var toponymsList = [];
+
+    function getToponymsList() {
+        return toponymsList;
+    }
+
+    function addToponym( location, description, index ) {
+        toponymsList.push({
+            key: location,
+            value: description,
+            index: index
+        });
+
+        //console.log(toponymsList);
+    }
+
+    return {
+        toponymsList: getToponymsList,
+        addToponym: addToponym
+    }
+
+})();

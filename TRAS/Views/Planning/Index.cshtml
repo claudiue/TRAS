@@ -4,39 +4,40 @@
 }
 
 @section planningScript{
-    <script src="~/Scripts/app/test.js"></script>
+    <script src="~/Scripts/app/Planning/planningModules.js"></script>
+    <script src="~/Scripts/app/Planning/planningMain.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <link href="~/Content/css/googleMap.css" rel="stylesheet" />
 }
  
     <h2>Planning</h2>
     <div class="container">
+        <section class="col-md-3">
 
-        <section>
-            <section class="col-md-3">
-                <div class="row">
-                    <input type="text" id="itemValue" name="add" />
-                    <input type="button" id="addItemBtn" value="Add">
-                </div>
-                <div id="divItems" class="row">
-                    <ul id="listItems" @*style="list-style-image: url(../../Content/images/move.jpg) "*@></ul>
-                </div>
-                <div class="row">
-                    <input type="button" id="showMap" value="Show map">
-                    <input type="button" id="drawRoute" value="Route">
-                </div>
-            </section>
+            <div class="row search">
+                <input type="text" id="itemValue" name="add" />
+                <input type="button" id="addItemBtn" value="Add">
+            </div>
 
-            <section class="col-md-9">
-                <div class="row">
-                    <div id="map" style="height:500px"></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">Visual RDF</div>
-                </div>
-            </section>
+            <div class="row" id="divItems">
+                <ul id="listItems" @*style="list-style-image: url(../../Content/images/move.jpg) "*@></ul>
+            </div>
+            <div class="row">
+                <input type="button" id="showMap" value="Show map">
+                <input type="button" id="drawRoute" value="Route">
+            </div>
         </section>
-        
+
+        <section class="col-md-9">
+            <div class="row">
+                <div id="map" style="height:500px" ></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">Visual RDF</div>
+            </div>
+        </section>
+
     </div>
 
 
