@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NGeo.GeoNames;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,6 @@ namespace WebServices
     {
         public Toponym Search(string query, string type)
         {
-            //string url = string.Format("{0}q={1}&username={2}&startRow=0&maxRows=1&type={3}", Constants.GeoNamesUrl, query, Constants.GeoNamesUsername, type);
-            //WebClient client = new WebClient();
-            //client.Encoding = Encoding.UTF8;
-            //string response = client.DownloadString(url);
-            //var jobj = JObject.Parse(response);
-
             using (var geoNamesClient = new NGeo.GeoNames.GeoNamesClient())
             {
                 SearchOptions searchOptions = 
@@ -71,5 +66,62 @@ namespace WebServices
                 return res;
             }
         }
+
+
+        public IList<dynamic> GetSpots(string query, string type = "json", int startRow = 0, int maxRows = 1000)
+        {
+            string url = string.Format("{0}q={1}&username={2}&type={3}&featureClass=S&startRow={4}&maxRows={5}", Constants.GeoNamesUrl, query, Constants.GeoNamesUsername, type, startRow, maxRows);
+            WebClient client = new WebClient();
+            client.Encoding = Encoding.UTF8;
+            string response = client.DownloadString(url);
+            var jobj = JObject.Parse(response);
+
+            var items = JsonConvert.DeserializeObject<List<dynamic>>(jobj["geonames"].ToString());
+            return items;
+        }
+
+        public IList<dynamic> SearchSpots(string query, string type = "json", int startRow = 0, int maxRows = 1000)
+        {
+            IList<dynamic> list = new List<dynamic>();
+
+            string url = string.Format("{0}q={1}&username={2}&type={3}&featureClass=S&startRow={4}&maxRows={5}", Constants.GeoNamesUrl, query, Constants.GeoNamesUsername, type, startRow, maxRows);
+            WebClient client = new WebClient();
+            client.Encoding = Encoding.UTF8;
+            string response = client.DownloadString(url);
+            var jobj = JObject.Parse(response);
+
+
+            int foundSpots = 0;
+            int difference = 0;
+
+            if (jobj["totalResultsCount"] != null)
+            {
+                if (int.TryParse(jobj["totalResultsCount"].ToString(), out foundSpots))
+                {
+                    if (foundSpots <= 1000)
+                    {
+                        return JsonConvert.DeserializeObject<List<dynamic>>(jobj["geonames"].ToString());
+                    }
+                    else 
+                    {
+                        list = list.Concat(JsonConvert.DeserializeObject<List<dynamic>>(jobj["geonames"].ToString())).ToList();
+                        do
+                        {
+                            startRow += maxRows;
+                            difference = foundSpots - startRow;
+                            if (difference > 0)
+                            {
+                                list = list.Concat(GetSpots(query, type, startRow, maxRows)).ToList();
+                            }
+                        } while (startRow < foundSpots);
+                    }
+                    
+                }
+            }
+
+            return list;
+        }
+
+
     }
 }
