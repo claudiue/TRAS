@@ -1,11 +1,13 @@
 ﻿
 $(document).ready(function () {
 
+    mapManager.showMap();
+
     $("#listItems").sortable({
         handle: '.handle',
         update: function () {
             var order = $('#listItems').sortable('serialize');
-            //listManager.order();
+            listManager.reorder();
         }
     });
 
@@ -26,6 +28,10 @@ $(document).ready(function () {
 
     $("#drawRoute").click(function () {
         mapManager.drawPath();
+    });
+
+    $("#geolocateMe").click(function () {
+        mapManager.geolocateMe();
     });
 
 });

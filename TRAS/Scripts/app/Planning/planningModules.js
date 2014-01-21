@@ -50,10 +50,16 @@ var listManager = (function () {
         }
     }
 
+    function reorder() {
+        //$(".item").each(function (index) {
+        //    console.log(index + ": " + $(this).text());
+        //});
+    }
     return {
         itemsList: itemsList,
         addItem: addItem,
-        getItem: getItem
+        getItem: getItem,
+        reorder: reorder
     }
 })();
 
@@ -62,18 +68,42 @@ var mapManager = (function () {
     var map;
     var flightPath;
 
+    
     function showMap() {
 
         if (flightPath !== undefined) {
             flightPath.setMap(null); // remove the line
         }
+
         var mapOptions = {
             zoom: 8,
             center: new google.maps.LatLng(-34.397, 150.644)
         };
 
-        map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        map = new google.maps.Map(document.getElementById('map'), mapOptions);      
     }
+
+    function geolocateMe() {
+
+        // Try HTML5 geolocation
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+                var infowindow = new google.maps.InfoWindow({
+                    map: map,
+                    position: pos,
+                    content: 'You are here!'
+                });
+
+                map.setCenter(pos);
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            alert("Browser doesn't support Geolocation!");
+        }
+    }
+
 
     function drawPath() {
 
@@ -118,6 +148,8 @@ var mapManager = (function () {
     }
 
     return {
+        map: map,
+        geolocateMe: geolocateMe,
         showMap: showMap,
         drawPath: drawPath
     }
@@ -135,8 +167,8 @@ var jqManager = (function () {
             data: JSON.stringify({ query: item }),
             success: function (data, textStatus, jqXHR) {
 
-                console.log(data);
-                //toponymsManager.addToponym(item, data, 0);
+                //console.log(data);
+                toponymsManager.addToponym(item, data);
                 
                 //$('#feature').html(JSON.stringify(data, null, 4));
 
@@ -161,14 +193,14 @@ var toponymsManager = (function () {
         return toponymsList;
     }
 
-    function addToponym( location, description, index ) {
+    function addToponym( location, description ) {
         toponymsList.push({
+            index: toponymsList.length,
             key: location,
-            value: description,
-            index: index
+            value: description
         });
 
-        //console.log(toponymsList);
+        console.log(toponymsList);
     }
 
     return {

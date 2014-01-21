@@ -14,3 +14,7 @@
     float:left;
     margin-right:10px;
 }
+
+#map {
+    border: 2px solid black;
+}
