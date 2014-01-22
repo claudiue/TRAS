@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     $('#searchForm').submit(function (event) {
-        event.preventDefault();
+        event.preventDefault(); 
         var item = $('#search').val();
         $('#content').hide();
         $.ajax({
@@ -15,8 +15,6 @@
                 var resp = JSON.parse(jqXHR.responseText);
                 alert(errorThrown);
             }
-
-
         });
 
       
