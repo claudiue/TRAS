@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     $('#searchForm').submit(function (event) {
-        event.preventDefault(); 
+        event.preventDefault();
+        debugger;
         var item = $('#search').val();
         $('#content').hide();
         $.ajax({
@@ -9,6 +10,7 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({ query: item }),
             success: function (data, textStatus, jqXHR) {
+                debugger;
              console.log(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {

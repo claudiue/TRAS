@@ -40,10 +40,10 @@ namespace TRAS.Controllers
         }
 
         [HttpPost]
-        public JsonResult Search(SearchViewModel model)
+        public ActionResult Search(SearchViewModel model)
         {
             var spots = new GeoNamesAgent().SearchSpots(model.Query, "json");
-            return Json(spots);
+            return Json(new { spots = spots });
         }
     }
 }
