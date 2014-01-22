@@ -121,6 +121,10 @@
       <Project>{2345FCEF-E640-4E64-9971-F9D8BD77CF93}</Project>
       <Name>TRAS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ViewModels\ViewModels.csproj">
+      <Project>{c097a112-207f-45ff-86f9-e345a5db13aa}</Project>
+      <Name>ViewModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WebServices\WebServices.csproj">
       <Project>{d9368daa-9898-4247-a50f-e04f59bdfdec}</Project>
       <Name>WebServices</Name>

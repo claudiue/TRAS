@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace TRAS.Models.ViewModels
+namespace ViewModels
 {
     public class SearchViewModel
     {

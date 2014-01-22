@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TRAS.Models;
-using TRAS.Models.ViewModels;
+using ViewModels;
 using WebServices;
 
 namespace TRAS.Controllers

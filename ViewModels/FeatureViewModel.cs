@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Web; 
 
-namespace WebServices
+namespace ViewModels
 {
-    public class GNFeatureViewModel
+    public class FeatureViewModel
     {
         public string CountryId { get; set; }
         public string CountryName { get; set; }
