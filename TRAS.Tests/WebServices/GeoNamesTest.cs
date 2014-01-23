@@ -24,9 +24,15 @@ namespace TRAS.Tests.WebServices
 
             sw.Start();
             var agent = new GeoNamesAgent();
-            var res = agent.SearchSpots("Paris");
+            var res = agent.SearchSpots("Iasi");
             sw.Stop();
             var time = sw.Elapsed;
+        }
+
+        [TestMethod]
+        public void ConstantsTest()
+        {
+            string featureCodes = Constants.SpotsSearchFeatureCodesString;
         }
     }
 }
