@@ -17,6 +17,9 @@ namespace TRAS.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        public UserManager<ApplicationUser> UserManager { get; private set; }
+
+        #region C-tors
         public AccountController()
             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
@@ -26,9 +29,9 @@ namespace TRAS.Controllers
         {
             UserManager = userManager;
         }
+        #endregion
 
-        public UserManager<ApplicationUser> UserManager { get; private set; }
-
+        #region Login
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -62,7 +65,9 @@ namespace TRAS.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        #endregion
 
+        #region Register
         //
         // GET: /Account/Register
         [AllowAnonymous]
@@ -105,6 +110,10 @@ namespace TRAS.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    //TODO: Save user in graph
+
+
+
                     SendEmailConfirmation(model.Email, model.UserName, confirmationToken);
                     //await SignInAsync(user, isPersistent: false);
                     //return RedirectToAction("Index", "Home");
@@ -165,7 +174,9 @@ namespace TRAS.Controllers
         {
             return View();
         }
+        #endregion
 
+        #region Manage
         //
         // POST: /Account/Disassociate
         [HttpPost]
@@ -250,7 +261,9 @@ namespace TRAS.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+        #endregion
 
+        #region External Login
         //
         // POST: /Account/ExternalLogin
         [HttpPost]
@@ -353,7 +366,9 @@ namespace TRAS.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
         }
+        #endregion
 
+        #region End
         //
         // POST: /Account/LogOff
         [HttpPost]
@@ -390,6 +405,7 @@ namespace TRAS.Controllers
             }
             base.Dispose(disposing);
         }
+        #endregion
 
         #region Helpers
         // Used for XSRF protection when adding external logins
