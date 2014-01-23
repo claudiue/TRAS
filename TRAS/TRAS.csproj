@@ -189,6 +189,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\PlanningController.cs" />
+    <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -212,6 +213,7 @@
     <Content Include="Scripts\app\Planning\planningMain.js" />
     <Content Include="Scripts\app\Planning\planningModules.js" />
     <Content Include="Scripts\app\Search\search.js" />
+    <Content Include="Scripts\app\UserProfile\userProfileModel.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -264,8 +266,9 @@
     <Content Include="Views\Account\ConfirmationSuccess.cshtml" />
     <Content Include="Views\Account\ConfirmationFailure.cshtml" />
     <Content Include="Views\Emails\EmailTemplate.cshtml" />
-    <Content Include="Views\Home\Planning\Index.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Home\UserProfile\Index.cshtml" />
+    <Content Include="Views\Home\Planning\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
