@@ -71,8 +71,8 @@ namespace WebServices
 
         public IList<FeatureViewModel> GetSpots(string query, string type = "json", int startRow = 0, int maxRows = 1000)
         {
-            string url = string.Format("{0}q={1}&username={2}&type={3}&featureClass=S&startRow={4}&maxRows={5}", 
-                Constants.GeoNamesUrl, query, Constants.GeoNamesUsername, type, startRow, maxRows);
+            string url = string.Format("{0}q={1}&username={2}&type={3}&{4}&startRow={5}&maxRows={6}",
+                Constants.GeoNamesUrl, query, Constants.GeoNamesUsername, type, Constants.SpotsSearchFeatureCodesString, startRow, maxRows);
             
             WebClient client = new WebClient();
             client.Encoding = Encoding.UTF8;
