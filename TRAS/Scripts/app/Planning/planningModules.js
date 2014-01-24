@@ -1,75 +1,126 @@
 ﻿
-var listManager = (function () {
 
-    var itemsList = [];
+function Item(data) {
+    this.query = ko.observable(data.query);
+}
 
-    function getItem() {
-        return $("#itemValue").val();
-    }
+function ItemListViewModel() {
 
-    function clearInput(input) {
-        $(input).val("");
-    }
+    var map,
+        flightPath,
+        line = [],
+        locations = [],
+        infos = [];
 
-    function createList(){
+    var self = this;
 
-        var list = document.getElementById("listItems"),
-            elem = document.createElement("li"),
-            img = document.createElement('img');
-
-        var //item = document.createElement("div"),
-            text = document.createElement("p"),
-            removeBtn = document.createElement("button");
-
-        img.setAttribute('src', '../../Content/images/move.jpg');
-        img.setAttribute('class', 'handle');
-
-        var itemValue = getItem();
-        text.setAttribute('class', '');
-        text.innerText = itemValue;
-        itemsList.push(itemValue);
-
-        removeBtn.innerText = 'x';
-        //removeBtn.setAttribute("id", "removeItemBtn"); ??unique
-
-        elem.setAttribute('class', 'item');
-        elem.appendChild(img);
-        elem.appendChild(text);
-        
-        //elem.appendChild(item);
-        //elem.appendChild(img);
-        list.appendChild(elem);
-
-        $("#divItems").append(list);
-        clearInput("#itemValue");
-    }
-
-    function addItem() {
-        if (getItem() != "") {
-            createList();
-        }
-    }
-
-    function reorder() {
-        //$(".item").each(function (index) {
-        //    console.log(index + ": " + $(this).text());
-        //});
-    }
-    return {
-        itemsList: itemsList,
-        addItem: addItem,
-        getItem: getItem,
-        reorder: reorder
-    }
-})();
-
-var mapManager = (function () {
-
-    var map;
-    var flightPath;
-
+    self.items = ko.observableArray([]);
+    self.newItemText = ko.observable();
     
-    function showMap() {
+    // Operations
+    self.addItem = function () {
+
+        self.items.push(new Item({ query: this.newItemText() }));
+
+        var item = ko.toJSON(new Item({ query: this.newItemText() }));
+        self.sendItem( item );
+
+        locations.push(jQuery.parseJSON(item).query);
+
+        self.newItemText("");
+    };
+
+    self.removeItem = function (item) {
+        self.items.remove(item);
+        remove_item(locations, jQuery.parseJSON(ko.toJSON(item)).query);
+
+        remove_item(infos, jQuery.parseJSON(ko.toJSON(item)).query);
+        
+        removeMarker(jQuery.parseJSON(ko.toJSON(item)).query);
+
+        self.drawPath();
+    };
+
+    remove_item = function (arr, value) {
+        for (b in arr) {
+            if (arr[b] == value || arr[b].loc == value) {
+                arr.splice(b, 1);
+                break;
+            }
+        }
+        return arr;
+    }
+
+
+    self.sendItem = function (item) {
+
+        $.ajax({
+            type: "POST",
+            url: '../Planning/Search/',
+            contentType: "application/json; charset=utf-8",
+            data: item,
+            success: function (data, textStatus, jqXHR) {
+
+                infos.push({ loc: jQuery.parseJSON(item).query, data: data });
+                self.showMarker(jQuery.parseJSON(item).query, data);
+                self.addToponym(jQuery.parseJSON(item).query, data);
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                var resp = JSON.parse(jqXHR.responseText);
+                alert(errorThrown);
+            }
+        });
+    }
+
+    var LatLngList = [];
+    var bounds = new google.maps.LatLngBounds();
+
+    self.showMarker = function (location, data) {
+
+        var myLatlng = new google.maps.LatLng(data.Latitude, data.Longitude);
+       
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title: 'Hello World!'
+        });
+        markersArray.push({value: location, marker: marker});
+
+        map.setZoom(10);
+        map.setCenter(myLatlng);
+
+        LatLngList.push(myLatlng);
+        
+    }
+
+    removeMarker = function (item) {
+        for (var i = 0; i < markersArray.length; i++) {
+            if (markersArray[i].value == item) {
+                markersArray[i].marker.setMap(null);
+                markersArray.splice(i, 1);
+                LatLngList.splice(i, 1);
+            }
+
+        }
+        //for (var i = 0; i < markersArray.length; i++) {
+        //    console.log(markersArray);
+        //    console.log(LatLngList);
+        //}
+    }
+
+    self.toponymsList = [];
+
+    self.addToponym = function (location, description) {
+
+        self.toponymsList.push({
+            index: self.toponymsList.length,
+            key: location,
+            value: description
+        });
+    }
+
+    self.showMap = function() {
 
         if (flightPath !== undefined) {
             flightPath.setMap(null); // remove the line
@@ -83,7 +134,7 @@ var mapManager = (function () {
         map = new google.maps.Map(document.getElementById('map'), mapOptions);      
     }
 
-    function geolocateMe() {
+    self.geolocateMe = function() {
 
         // Try HTML5 geolocation
         if (navigator.geolocation) {
@@ -104,34 +155,41 @@ var mapManager = (function () {
         }
     }
 
+    
+    self.drawPath = function () {
 
-    function drawPath() {
-
-        var list = listManager.itemsList,
+        var list = locations,
             flightPlanCoordinates = [],
             geocoder = new google.maps.Geocoder();
 
-        console.log(list);
-        for (var i = 0; i < list.length; i++) {
-            var address = list[i];
+        for (i = 0; i < line.length; i++) {
+            line[i].setMap(null); //line[i].setVisible(false);
+        }
 
-            geocoder.geocode({ 'address': address }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
+        for (var i = 0; i < infos.length; i++) {
+            //var address = list[i];
 
-                    map.setCenter(results[0].geometry.location);
+            var lat = infos[i].data.Latitude;
+            var lng = infos[i].data.Longitude;
 
-                    //console.log(results[0].geometry.location.lat());
-                    var lat = results[0].geometry.location.lat();
-                    var lng = results[0].geometry.location.lng();
+            flightPlanCoordinates.push(new google.maps.LatLng(lat, lng));
 
-                    flightPlanCoordinates.push(new google.maps.LatLng(lat, lng));
-                    
-                } else {
-                    alert("Geocode was not successful for the following reason: " + status);
-                }
-            });
+            //geocoder.geocode({ 'address': address }, function (results, status) {
+            //    if (status == google.maps.GeocoderStatus.OK) {
+
+            //        var lat = results[0].geometry.location.lat();
+            //        var lng = results[0].geometry.location.lng();
+
+            //        flightPlanCoordinates.push(new google.maps.LatLng(lat, lng));
+
+            //    } else {
+            //        alert("Geocode was not successful for the following reason: " + status);
+            //    }
+            //});
 
         }
+
+        extendBounds();
 
         setTimeout(function () {
             flightPath = new google.maps.Polyline({
@@ -139,73 +197,35 @@ var mapManager = (function () {
                 geodesic: true,
                 strokeColor: 'green',
                 strokeOpacity: 1.0,
-                strokeWeight: 4
+                strokeWeight: 2
             });
 
+            line.push(flightPath);
             flightPath.setMap(map);
-        }, 300);
-              
+
+            
+        }, 200);
     }
 
-    return {
-        map: map,
-        geolocateMe: geolocateMe,
-        showMap: showMap,
-        drawPath: drawPath
-    }
-})();
+    var markersArray = [];
+    clearMarkers = function () {
+        for (var i = 0; i < markersArray.length; i++) {
+            markersArray[i].setMap(null);
+        }
 
-var jqManager = (function () {
-
-    
-    function sendItem(item) {
-
-        $.ajax({
-            type: "POST",
-            url: '../Planning/Search/',
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ query: item }),
-            success: function (data, textStatus, jqXHR) {
-
-                //console.log(data);
-                toponymsManager.addToponym(item, data);
-                
-                //$('#feature').html(JSON.stringify(data, null, 4));
-
-
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                var resp = JSON.parse(jqXHR.responseText);
-                alert(errorThrown);
-            }
-        });
+        markersArray = [];
     }
 
-    return {
-        sendItem: sendItem
+    extendBounds = function () {
+        for (var i = 0; i < LatLngList.length; i++) {
+            map.setZoom(15);
+            bounds.extend(LatLngList[i]);
+        }
+        map.fitBounds(bounds);
     }
-})();
+}
 
-var toponymsManager = (function () {
-    var toponymsList = [];
+var vm = new ItemListViewModel();
+ko.applyBindings(vm);
 
-    function getToponymsList() {
-        return toponymsList;
-    }
-
-    function addToponym( location, description ) {
-        toponymsList.push({
-            index: toponymsList.length,
-            key: location,
-            value: description
-        });
-
-        console.log(toponymsList);
-    }
-
-    return {
-        toponymsList: getToponymsList,
-        addToponym: addToponym
-    }
-
-})();
+vm.showMap();

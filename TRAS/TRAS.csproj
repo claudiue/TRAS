@@ -205,6 +205,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\googleMap.css" />
+    <Content Include="Content\images\default.jpg" />
     <Content Include="Content\images\move.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -213,7 +214,7 @@
     <Content Include="Scripts\app\Planning\planningMain.js" />
     <Content Include="Scripts\app\Planning\planningModules.js" />
     <Content Include="Scripts\app\Search\search.js" />
-    <Content Include="Scripts\app\UserProfile\userProfileModel.js" />
+    <Content Include="Scripts\app\UserProfile\UserProfileModel.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -221,6 +222,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.mobile-1.4.0.js" />
     <Content Include="Scripts\jquery.signalR-2.0.1.js" />
     <Content Include="Scripts\jquery.signalR-2.0.1.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -267,8 +269,6 @@
     <Content Include="Views\Account\ConfirmationFailure.cshtml" />
     <Content Include="Views\Emails\EmailTemplate.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
-    <Content Include="Views\Home\UserProfile\Index.cshtml" />
-    <Content Include="Views\Home\Planning\Index.cshtml" />
     <Content Include="Views\Planning\Index.cshtml" />
     <Content Include="Views\UserProfile\Index.cshtml" />
   </ItemGroup>
@@ -306,7 +306,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2036</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

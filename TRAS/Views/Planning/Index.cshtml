@@ -4,30 +4,34 @@
 }
 
 @section planningScript{
-    <script src="~/Scripts/app/Planning/planningModules.js"></script>
-    <script src="~/Scripts/app/Planning/planningMain.js"></script>
+
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <link href="~/Content/css/googleMap.css" rel="stylesheet" />
+
+    <script src="~/Scripts/knockout-3.0.0.js"></script>
+    <script src="~/Scripts/app/Planning/planningModules.js"></script>
 }
  
     <h2>Planning</h2>
     <div class="container">
         <section class="col-md-3">
+            <h3>Locations</h3>
 
-            <div class="row search">
-                <input type="text" id="itemValue" name="add" />
-                <input type="button" id="addItemBtn" value="Add">
-            </div>
+            <form data-bind="submit: addItem">
+                <input data-bind="value: newItemText" placeholder="What do you want to visit?" />
+                <button type="submit">Add</button>
+            </form>
 
-            <div class="row" id="divItems">
-                <ul id="listItems" @*style="list-style-image: url(../../Content/images/move.jpg) "*@></ul>
-            </div>
-            <div class="row">
-               @* <input type="button" id="showMap" value="Show map">*@
-                <input type="button" id="geolocateMe" value="Where I am?">
-                <input type="button" id="drawRoute" value="Route">
-            </div>
+            <ul data-bind="foreach: items, visible: items().length > 0">
+                <li>
+                    <label data-bind="text: query"></label>
+                    <a href="#" data-bind="click: $parent.removeItem">Remove</a>
+                </li>
+            </ul>
+
+            <button data-bind="click: geolocateMe" id="geolocateMe"> Where I am? </button>
+            <button data-bind="click: drawPath" id="drawPath"> Path </button>
         </section>
 
         <section class="col-md-9">

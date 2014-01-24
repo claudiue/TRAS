@@ -1,37 +1,37 @@
 ﻿
 $(document).ready(function () {
 
-    mapManager.showMap();
+    //mapManager.showMap();
 
-    $("#listItems").sortable({
-        handle: '.handle',
-        update: function () {
-            var order = $('#listItems').sortable('serialize');
-            listManager.reorder();
-        }
-    });
+    //$("#listItems").sortable({
+    //    handle: '.handle',
+    //    update: function () {
+    //        var order = $('#listItems').sortable('serialize');
+    //        listManager.reorder();
+    //    }
+    //});
 
-    $("#addItemBtn").click(function () {
+    //$("#addItemBtn").click(function () {
 
-        jqManager.sendItem(listManager.getItem());
-        listManager.addItem();
+    //    jqManager.sendItem(listManager.getItem());
+    //    listManager.addItem();
 
-    });
+    //});
 
-    $("#removeItemBtn").click(function () {
-        //listManager.removeItem();
-    });
+    //$("#removeItemBtn").click(function () {
+    //    //listManager.removeItem();
+    //});
 
-    $("#showMap").click(function () {
-        mapManager.showMap();
-    });
+    //$("#showMap").click(function () {
+    //    mapManager.showMap();
+    //});
 
-    $("#drawRoute").click(function () {
-        mapManager.drawPath();
-    });
+    //$("#drawRoute").click(function () {
+    //    mapManager.drawPath();
+    //});
 
-    $("#geolocateMe").click(function () {
-        mapManager.geolocateMe();
-    });
+    //$("#geolocateMe").click(function () {
+    //    mapManager.geolocateMe();
+    //});
 
 });
