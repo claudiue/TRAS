@@ -33,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="dotNetRDF, Version=1.0.2.2880, Culture=neutral, PublicKeyToken=6055ffe4c97cc780, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\dotNetRDF.1.0.2.2880\lib\net40\dotNetRDF.dll</HintPath>
-    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
@@ -113,6 +109,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DotNetRDFCore\DotNetRDFCore.csproj">
+      <Project>{ab375d4a-c18a-4937-9626-184e7e8dd7a2}</Project>
+      <Name>DotNetRDFCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TripleStore\TripleStore.csproj">
       <Project>{9bc77998-4e58-4514-86ff-ca0b0cd012d7}</Project>
       <Name>TripleStore</Name>

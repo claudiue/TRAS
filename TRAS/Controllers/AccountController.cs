@@ -11,6 +11,8 @@ using Microsoft.Owin.Security;
 using TRAS.Models;
 using Postal;
 using System.Data.Entity;
+using ViewModels;
+using TripleStore.Stardog;
 
 namespace TRAS.Controllers
 {
@@ -110,9 +112,17 @@ namespace TRAS.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //TODO: Save user in graph
+                    // TODO Save user in graph
 
+                    var agentVM = new AgentViewModel() 
+                    {
+                        Id = user.UserName, 
+                        Email = user.Email,
+                        NickName = user.UserName
+                    };
 
+                    var db = StardogDb.GetInstance();
+                    db.Update(agentVM);
 
                     SendEmailConfirmation(model.Email, model.UserName, confirmationToken);
                     //await SignInAsync(user, isPersistent: false);
