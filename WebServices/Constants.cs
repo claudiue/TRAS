@@ -35,7 +35,7 @@ namespace WebServices
                                                     ,"REST"
                                                     ,"RSRT"
                                                     ,"RSTN"
-                                                    ,"SPA "
+                                                    ,"SPA"
                                                     ,"STDM"
                                                     ,"THTR"
                                                     ,"TMPL"

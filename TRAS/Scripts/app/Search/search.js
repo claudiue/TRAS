@@ -1,15 +1,13 @@
 ﻿$(document).ready(function () {
     $('#items').hide();
-    $("#entries").hide();
     $('#searchForm').submit(function (event) {
+        $("#submitBtn").prop('disabled', true);
         event.preventDefault();
         var item = $('#search').val();
         $('#items').show();
         $('#items').empty();
-        $('#entries').empty();
 
         $('#entries').empty();
-        $('#paginator').hide();
         $.ajax({
             type: "POST",
             url: '../Home/Search/',
@@ -41,8 +39,6 @@
                         ||  data.spots[i].Fcode == "THTR" ||  data.spots[i].Fcode == "RSRT")
                         entertaining.push(data.spots[i]);
                 }
-                $('#entry-list').append('<ul id=\'entries\'></ul>');
-                $('#entry-list').append('<div id=\"paginator\"></div>');
                 if (attractions.length != 0) 
                     $('#items').append("<li id=\"attr\" class=\"active\"><strong>Attractions (" + attractions.length + ")</strong><i class=\"glyphicon glyphicon-chevron-right grey pull-right\"></i></li>");
                 if(accomodation.length!=0)
@@ -55,12 +51,14 @@
                     $('#items').append("<li id=\"ent\"><strong>Entertainment (" + entertaining.length + ")</strong><i class=\"glyphicon glyphicon-chevron-right pull-right\"></i></li>");
                 $('#return').click(function (e) { $("#entries").hide(); $("#items").visible(); });
 
+                $("#submitBtn").prop('disabled', false);
                 $("#attr").on("click", function (e) { searchManager.pagination("#attr", attractions) });
-                $("#attr").trigger("click");
                 $("#acc").on("click",function(e){searchManager.pagination("#acc", accomodation)});
                 $("#rest").on("click",function(e){searchManager.pagination("#rest", restaurants)});
                 $("#transp").on("click",function(e){searchManager.pagination("#transp", transportation)});
-                $("#ent").on("click",function (e) { searchManager.pagination("#ent", entertaining)});
+                $("#ent").on("click", function (e) { searchManager.pagination("#ent", entertaining) });
+                $("#attr").trigger("click");
+
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 var resp = JSON.parse(jqXHR.responseText);
