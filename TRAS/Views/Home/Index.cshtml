@@ -2,7 +2,9 @@
     ViewBag.Title = "Home Page";
 }
 @section searchScript{
+    <script src="~/Scripts/jquery.bootgap.min.js"></script>
     <script src="~/Scripts/app/Search/search.js"></script>
+    <script src="~/Scripts/app/Search/searchModules.js"></script>
   }
 <div class="jumbotron">
        <h1>TRAS</h1>
@@ -16,7 +18,8 @@
         <p><a href="http://www.infoiasi.ro" class="btn btn-primary btn-large">Faculty of Computer Science from Iasi &raquo;</a></p>
 </div>
 
-<div class="body-content">
+<div class="body-content" id="main">
+    <div id="content">
     <div class="col-md-4">
         <h2>Getting started</h2>
         <p>
@@ -35,5 +38,6 @@
         <h2>Web Hosting</h2>
         <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
         <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>
     </div>
 </div>
