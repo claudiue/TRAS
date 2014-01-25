@@ -10,31 +10,37 @@
     <link href="~/Content/css/googleMap.css" rel="stylesheet" />
 
     <script src="~/Scripts/knockout-3.0.0.js"></script>
-    <script src="~/Scripts/app/Planning/planningModules.js"></script>
-}
- 
+    <script src="~/Scripts/app/Planning/PlanningModel.js"></script>
+    <script src="~/Scripts/app/Planning/PlanningMain.js"></script>
+ }
     <h2>Planning</h2>
     <div class="container">
         <section class="col-md-3">
             <h3>Locations</h3>
 
-            <form data-bind="submit: addItem">
-                <input data-bind="value: newItemText" placeholder="What do you want to visit?" />
-                <button type="submit">Add</button>
+            <form data-bind="submit: addItem" role="form">
+                <div class="form-group">
+                    <input data-bind="value: newItemText" class="form-control" placeholder="What do you want to visit?" />
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
             </form>
+
 
             <ul data-bind="foreach: items, visible: items().length > 0">
                 <li>
-                    <label data-bind="text: query"></label>
-                    <a href="#" data-bind="click: $parent.removeItem">Remove</a>
+                    <input type="checkbox" data-bind="attr: { value: query }, checked: $parent.places, click: $parent.createPath" />
+                    @*<a href="#" data-bind="click: $parent.searchSpots(query)">*@
+                        <label data-bind="text: query"></label>
+                    @*</a>*@
+                    <button type="button" data-bind="click: $parent.removeItem" class="close" aria-hidden="true">&times;</button>
                 </li>
             </ul>
 
-            <button data-bind="click: geolocateMe" id="geolocateMe"> Where I am? </button>
-            <button data-bind="click: drawPath" id="drawPath"> Path </button>
+            <button data-bind="click: geolocateMe" id="geolocateMe" class="btn btn-info"> Where am I? </button>
+            <button data-bind="click: drawPath, visible: places().length > 1" id="drawPath" class="btn btn-info"> Path </button>
         </section>
 
-        <section class="col-md-9">
+        <section class="col-md-6">
             <div class="row">
                 <div id="map" style="height:500px" ></div>
             </div>
@@ -43,8 +49,65 @@
             </div>
         </section>
 
-    </div>
+        <section class="col-md-3">
+
+            <div class="row" style="border: 1px solid black; height: 500px; overflow-x: scroll;" >
+                <div>
+                    <ul id="spotsList" class="nav nav-tabs nav-stacked" data-bind="foreach: spots, visible: spots().length >
+                        0">
+                        <li>
+                            <a href="#" data-bind="click: showOnMap(spot)">
+                                <label data-bind="text: spot"></label>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>  
 
 
 
-   
+    <div class="container" data-bind="visible: places().length > 0">
+
+    <h3>Itinerary</h3>
+
+    <section class="col-md-3">
+        <ul data-bind="foreach: places, visible: places().length > 0">
+            <li>
+                <label data-bind="text: $data"></label>
+            </li>
+        </ul>
+    </section>
+
+    <section class="col-md-6">
+
+        <form data-bind="submit: saveItinerary" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="itineraryName" class="col-sm-2 control-label"> Name </label>
+                <input data-bind="value: itineraryName" name="itineraryName" class="form-control" placeholder="Itinerary name" />
+
+                <label for="itineraryBudget" class="col-sm-2 control-label"> Budget </label>
+                <input data-bind="value: budget" name="itineraryBudget" class="form-control" placeholder="Itinerary budget" />
+
+                <label for="nrDays" class="col-sm-2 control-label"> Days </label>
+                <input data-bind="value: nrDays" name="nrDays" class="form-control" placeholder="Number of days" />
+
+                <label for="itineraryRating" class="col-sm-2 control-label"> Rating </label>
+                <input data-bind="value: rating" name="itineraryRating" class="form-control" placeholder="Itinerary rating" />
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-7 col-sm-10">
+                    <button type="submit" class="btn btn-primary" data-bind="click: saveItinerary"> Save </button>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    <section class="col-md-3"></section>
+
+</div>  
+
+
+    
