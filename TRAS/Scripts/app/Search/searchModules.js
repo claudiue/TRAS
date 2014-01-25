@@ -1,9 +1,9 @@
 ﻿var searchManager = (function () {
     function pagination(id, array) {
+        debugger;
         $(id).click(function (e) {
             $('#items').hide();
-
-            var l = array.length / 10;
+             var l = array.length / 10;
             $('#paginator').bootpag({
                 total: l,
                 page: 1,

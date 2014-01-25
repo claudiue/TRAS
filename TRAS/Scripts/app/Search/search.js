@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     $('#searchForm').submit(function (event) {
+        
         event.preventDefault();
         var item = $('#search').val();
         $('#content').hide();
@@ -53,6 +54,7 @@
                 if(entertaining.length!=0)
                     $('#items').append("<li class=\"thumbnail\" id=\"ent\"><p>Entertainment("+entertaining.length+")</p></li>");
                 $('#return').click(function (e) { $("#entries").hide(); $("#items").visible();})
+                debugger;
                 searchManager.pagination("#attr", attractions);
                 searchManager.pagination("#acc", accomodation);
                 searchManager.pagination("#rest", restaurants);
