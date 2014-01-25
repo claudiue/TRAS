@@ -17,7 +17,7 @@ namespace TRAS.Controllers
         }
 
         [HttpPost]
-        public void UpdateProfile(AgentViewModel agentVM) 
+        public void UpdateProfile(PersonViewModel agentVM) 
         { 
             
         }

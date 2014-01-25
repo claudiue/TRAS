@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ViewModels
 {
-    public class AgentViewModel
+    public class PersonViewModel
     {
         public string Id { get; set; }
         public string FirstName { get; set; }

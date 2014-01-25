@@ -14,6 +14,8 @@ namespace WebServices
 {
     public class GeoNamesAgent
     {
+        private const int _geonamesLimit = 5000;
+
         public Toponym Search(string query, string type)
         {
             using (var geoNamesClient = new NGeo.GeoNames.GeoNamesClient())
@@ -109,6 +111,7 @@ namespace WebServices
                     }
                     else 
                     {
+                        foundSpots = foundSpots <= _geonamesLimit ? foundSpots : _geonamesLimit;
                         list = list.Concat(JsonConvert.DeserializeObject<List<FeatureViewModel>>(jobj["geonames"].ToString())).ToList();
                         do
                         {

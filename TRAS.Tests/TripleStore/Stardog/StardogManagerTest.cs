@@ -70,8 +70,10 @@ namespace TRAS.Tests.TripleStore.Stardog
             //TurtleParser parser = new TurtleParser();
             //parser.Load(g, "tras.ttl");
 
-            var stringUri = @"http://www.tras.org/ontology";
-            var uri = new Uri(stringUri);
+            //var stringUri = @"graph:univ";
+            //var defaultGrafUri = @"tag:stardog:api:context:default";
+            var allGraphsUris = @"tag:stardog:api:context:all";
+            var uri = new Uri(allGraphsUris);
             connector.LoadGraph(g, uri);
 
             //connector.LoadGraph(g, new Uri("http://users.tras.com/"));
@@ -99,13 +101,13 @@ namespace TRAS.Tests.TripleStore.Stardog
         [TestMethod]
         public void LoadGraph()
         {
-            string trasOntologyUri = "http://www.tras.org/ontology";
+            string defaultgraphName = "tag:stardog:api:context:default";
 
             StardogManager manager = new StardogManager();
             StardogConnector connector = manager.GetConnector("tras");
 
             IGraph g = new Graph();
-            connector.LoadGraph(g, new Uri(trasOntologyUri));
+            connector.LoadGraph(g, new Uri(defaultgraphName));
 
         }
     }
