@@ -143,7 +143,23 @@ function PlanningModel() {
 
         document.getElementById("spotsList").innerHTML = "";
 
+        //for (var i = 0; i < self.allFeatures().length; i++) {
+        //    for (var j = 0; j < self.locations().length; j++) {
+        //        for (var k = 0; k < self.locations()[j].features.length; k++) {
+        //            if (self.allFeatures()[i] == self.locations()[j].features[k].data.spotData.Name) {
+        //                remove_item(self.allFeatures(), itemValue);
+        //            }
+        //        }
+        //    }
+        //}
+
+        //console.log(self.locations());
+        //console.log(self.allFeatures());
+
         self.locations.remove(item);
+        item.features = [];
+        self.allFeatures = [];
+
 
         var itemValue = item.locationData.Name;//jQuery.parseJSON(ko.toJSON(item)).query;
         //self.places.remove(itemValue);
@@ -156,7 +172,7 @@ function PlanningModel() {
 
     remove_item = function (arr, value) {
         for (b in arr) {
-            if (arr[b] == value || arr[b].data.Name == value) {
+            if (arr[b] == value) {
                 arr.splice(b, 1);
                 break;
             }

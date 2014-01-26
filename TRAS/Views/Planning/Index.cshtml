@@ -7,6 +7,8 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jquery.microdata.js"></script>
+    <script src="~/Scripts/schemas.js"></script>
     <link href="~/Content/css/googleMap.css" rel="stylesheet" />
 
     <script src="~/Scripts/knockout-3.0.0.js"></script>
@@ -27,10 +29,10 @@
 
 
             <ul data-bind="foreach: locations, visible: locations().length > 0">
-                <li>
-                    @*<input type="checkbox" data-bind="attr: { value: $data.locationData.Name }, checked: $parent.places, click: $parent.checkPlace" />*@
+                <li itemscope itemtype="http://schema.org/Place" >
+                    @*<input type=" checkbox" data-bind="attr: { value: $data.locationData.Name }, checked: $parent.places, click: $parent.checkPlace" />*@
                     <a href="#" data-bind="click: $parent.searchSpots($data.locationData)">
-                        <label data-bind="text: $data.locationData.Name"></label>
+                        <label itemprop="name" data-bind="text: $data.locationData.Name"></label>
                     </a>
                     <button type="button" data-bind="click: $parent.removeItem" class="close" aria-hidden="true">&times;</button>
                 </li>
@@ -51,14 +53,14 @@
 
         <section class="col-md-3">
 
-            <div class="row" style="border: 1px solid black; height: 500px; overflow-x: scroll;" >
+            <div itemscope itemtype="http://schema.org/TouristAttraction" class="row" style="border: 1px solid black; height: 500px; overflow-x: scroll;">
                 <div>
                     <ul id="spotsList" class="nav nav-tabs nav-stacked" data-bind="foreach: spots, visible: spots().length >
                         0">
                         <li>
                             <input type="checkbox" data-bind="attr: { value: $data.spotData.Name }, checked: $parent.allFeatures, click: $parent.addToItinerary" />
                             <a href="#" data-bind="click: showOnMap($data.spotData.Name)">
-                                <label data-bind="text: $data.spotData.Name"></label>
+                                <label itemprop="name" data-bind="text: $data.spotData.Name"></label>
                             </a>
                         </li>
                     </ul>
@@ -74,18 +76,18 @@
 
     <h3>Itinerary</h3>
 
-    <section class="col-md-3">
-        <ul data-bind="foreach: locations, visible: locations().length > 0">
-            <li>
-                <label data-bind="text: locationData.Name"></label>
-                <ul data-bind="foreach: features">
-                    <li>
-                        <label data-bind="text: $data"></label>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </section>
+        <section itemscope itemtype="http://schema.org/TouristAttraction" class="col-md-3">
+            <ul data-bind="foreach: locations, visible: locations().length > 0">
+                <li>
+                    <label data-bind="text: $data.locationData.Name"></label>
+                    <ul data-bind="foreach: $data">
+                        <li>
+                            <label itemprop="name" data-bind="text: $data"></label>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
 
     <section class="col-md-6">
 
