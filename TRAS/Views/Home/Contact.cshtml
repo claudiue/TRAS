@@ -5,13 +5,27 @@
 <h3>@ViewBag.Message</h3>
 
 <address>
-    <span itemscope itemtype="http://schema.org/City" itemprop="name"> Iasi, </span>
-    <span itemscope itemtype="http://schema.org/Country" itemprop="name"> Romania </span><br />
+    <div itemscope itemtype="http://schema.org/City">
+        <span itemprop="name"> Iasi </span> ,
+    </div>
+    <div itemscope itemtype="http://schema.org/Country">
+        <span itemprop="name"> Romania </span>
+    </div><br />
 </address>
 
 <address>
     <strong>Support:</strong> <br />
-    <a itemprop="email" href="mailto:Support@example.com">claudiu.epure@gmail.com</a><br />
-    <a itemprop="email" href="mailto:Support@example.com">georgiana.roman@gmail.com</a><br />
-    <a itemprop="email" href="mailto:Support@example.com">andreea.tiron@gmail.com</a><br />
+    <div itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name"> Claudiu Epure</span>
+        @*<a href="mailto:claudiu.epure@gmail.com" itemprop="email"> claudiu.epure@gmail.com </a>*@
+    </div>
+
+    <div itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name"> Georgiana Roman</span>
+        @*<a href="mailto:georgiana.roman@gmail.com" itemprop="email">georgiana.roman@gmail.com</a><br />*@
+    </div>
+    <div itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name"> Andreea Tiron</span>
+        @*<a href="mailto:andreea.tiron@gmail.com" itemprop="email">andreea.tiron@gmail.com</a><br />*@
+    </div>
 </address>

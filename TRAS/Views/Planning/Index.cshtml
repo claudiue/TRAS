@@ -7,8 +7,7 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-    <script src="~/Scripts/jquery.microdata.js"></script>
-    <script src="~/Scripts/schemas.js"></script>
+    
     <link href="~/Content/css/googleMap.css" rel="stylesheet" />
 
     <script src="~/Scripts/knockout-3.0.0.js"></script>
@@ -27,39 +26,40 @@
                 </div>
             </form>
 
-
-            <ul data-bind="foreach: locations, visible: locations().length > 0">
-                <li itemscope itemtype="http://schema.org/Place" >
-                    @*<input type=" checkbox" data-bind="attr: { value: $data.locationData.Name }, checked: $parent.places, click: $parent.checkPlace" />*@
-                    <a href="#" data-bind="click: $parent.searchSpots($data.locationData)">
-                        <label itemprop="name" data-bind="text: $data.locationData.Name"></label>
-                    </a>
-                    <button type="button" data-bind="click: $parent.removeItem" class="close" aria-hidden="true">&times;</button>
-                </li>
-            </ul>
-
-            <button data-bind="click: geolocateMe" id="geolocateMe" class="btn btn-info"> Where am I? </button>
-            @*<button data-bind="click: drawPath, visible: places().length > 1" id="drawPath" class="btn btn-info"> Path </button>*@
+            <div itemscope itemtype="http://schema.org/Place">
+                <ul data-bind="foreach: locations, visible: locations().length > 0">
+                    <li>
+                        @*<input type=" checkbox" data-bind="attr: { value: $data.locationData.Name }, checked: $parent.places, click: $parent.checkPlace" />*@
+                        <a href="#" data-bind="click: $parent.searchSpots($data.locationData)">
+                            <label itemprop="name" data-bind="text: $data.locationData.Name"></label>
+                        </a>
+                        <button type="button" data-bind="click: $parent.removeItem" class="close" aria-hidden="true">&times;</button>
+                    </li>
+                </ul>
+            </div>
+                <button data-bind="click: geolocateMe" id="geolocateMe" class="btn btn-info"> Where am I? </button>
+                @*<button data-bind="click: drawPath, visible: places().length > 1" id="drawPath" class="btn btn-info"> Path </button>*@
+            
         </section>
 
-        <section class="col-md-6">
+        <section itemscope itemtype="http://schema.org/Place" class="col-md-6">
             <div class="row">
-                <div id="map" style="height:500px" ></div>
+                <div itemprop="map" id="map" style="height:500px"></div>
             </div>
             <div class="row">
-                <div class="col-md-4">Visual RDF</div>
+                @*<div class="col-md-4">Visual RDF</div>*@
             </div>
         </section>
 
         <section class="col-md-3">
 
-            <div itemscope itemtype="http://schema.org/TouristAttraction" class="row" style="border: 1px solid black; height: 500px; overflow-x: scroll;">
+            <div itemscope itemtype="http://schema.org/TouristAttraction" class="row" style="height: 500px; overflow-x: scroll; overflow-x:hidden">
                 <div>
                     <ul id="spotsList" class="nav nav-tabs nav-stacked" data-bind="foreach: spots, visible: spots().length >
                         0">
                         <li>
-                            <input type="checkbox" data-bind="attr: { value: $data.spotData.Name }, checked: $parent.allFeatures, click: $parent.addToItinerary" />
                             <a href="#" data-bind="click: showOnMap($data.spotData.Name)">
+                                <input type="checkbox" data-bind="attr: { value: $data.spotData.Name }, checked: $parent.allFeatures, click: $parent.addToItinerary" />
                                 <label itemprop="name" data-bind="text: $data.spotData.Name"></label>
                             </a>
                         </li>

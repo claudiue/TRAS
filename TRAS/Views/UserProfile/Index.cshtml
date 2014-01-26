@@ -6,10 +6,13 @@
 
 <h2>My Profile</h2>
 
-<div>
-    <h4>Basic Info</h4>
-    <hr />
-    <dl itemscope itemtype="http://schema.org/Person" class="dl-horizontal">
+
+<h4>Basic Info</h4>
+<hr />
+<div itemscope itemtype="http://schema.org/Person">
+
+</div>
+    <dl class="dl-horizontal">
         @{
             if (Model.FirstName != null)
             {
@@ -94,7 +97,6 @@
         }
 
     </dl>
-</div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
 </p>
