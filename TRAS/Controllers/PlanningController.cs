@@ -81,43 +81,47 @@ namespace TRAS.Controllers
                 };
 
                 db.CreateOrUpdatePlace(placeVM);
-
-                foreach (var feature in location.features)
+                
+                if (location.features != null)
                 {
-                    string featureID = string.Empty;
-                    if(feature.data.spotData.GeonameId > 0)
+                    foreach (var feature in location.features)
                     {
-                        featureID = string.Concat("feat_", feature.data.spotData.GeonameId.ToString());
+                        string featureID = string.Empty;
+                        if (feature.data.spotData.GeonameId > 0)
+                        {
+                            featureID = string.Concat("feat_", feature.data.spotData.GeonameId.ToString());
+                        }
+                        else
+                        {
+                            featureID = Utils.GetID("feat");
+                        }
+
+                        FeatureViewModel featureVM = new FeatureViewModel()
+                        {
+                            Id = featureID,
+                            Name = feature.data.spotData.Name,
+                            Code = feature.data.spotData.Fcode,
+                            Parent = placeVM
+                        };
+
+                        double lat;
+                        if (double.TryParse(feature.data.spotData.Lat, out lat))
+                        {
+                            featureVM.Lat = lat;
+                        }
+
+                        double lng;
+                        if (double.TryParse(feature.data.spotData.Lng, out lng))
+                        {
+                            featureVM.Long = lng;
+                        }
+
+                        db.CreateOrUpdateFeature(featureVM);
+
+                        itinVM.Features.Add(featureVM);
                     }
-                    else
-                    {
-                        featureID = Utils.GetID("feat");
-                    }
-
-                    FeatureViewModel featureVM = new FeatureViewModel()
-                    {
-                        Id = featureID,
-                        Name = feature.data.spotData.Name,
-                        Code = feature.data.spotData.Fcode,
-                        Parent = placeVM
-                    };
-
-                    double lat;
-                    if (double.TryParse(feature.data.spotData.Lat, out lat))
-                    {
-                        featureVM.Lat = lat;
-                    }
-                    
-                    double lng;
-                    if(double.TryParse(feature.data.spotData.Lng, out lng))
-                    {
-                        featureVM.Long = lng;
-                    } 
-
-                    db.CreateOrUpdateFeature(featureVM);
-
-                    itinVM.Features.Add(featureVM);
                 }
+                
             }
 
             db.CreateOrUpdateItinerary(itinVM);

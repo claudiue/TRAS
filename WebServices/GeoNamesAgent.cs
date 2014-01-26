@@ -71,7 +71,7 @@ namespace WebServices
         }
 
 
-        public IList<FeatureViewModel> GetSpots(string query, string type = "json", int startRow = 0, int maxRows = 1000)
+        public IList<GNFeatureViewModel> GetSpots(string query, string type = "json", int startRow = 0, int maxRows = 1000)
         {
             string url = string.Format("{0}q={1}&username={2}&type={3}&{4}&startRow={5}&maxRows={6}",
                 Constants.GeoNamesUrl, query, Constants.GeoNamesUsername, type, Constants.SpotsSearchFeatureCodesString, startRow, maxRows);
@@ -81,13 +81,13 @@ namespace WebServices
             string response = client.DownloadString(url);
             var jobj = JObject.Parse(response);
 
-            var items = JsonConvert.DeserializeObject<List<FeatureViewModel>>(jobj["geonames"].ToString());
+            var items = JsonConvert.DeserializeObject<List<GNFeatureViewModel>>(jobj["geonames"].ToString());
             return items;
         }
 
-        public IList<FeatureViewModel> SearchSpots(string query, string type = "json", int startRow = 0, int maxRows = 1000)
+        public IList<GNFeatureViewModel> SearchSpots(string query, string type = "json", int startRow = 0, int maxRows = 1000)
         {
-            IList<FeatureViewModel> list = new List<FeatureViewModel>();
+            IList<GNFeatureViewModel> list = new List<GNFeatureViewModel>();
 
             string url = string.Format("{0}q={1}&username={2}&type={3}&{4}&startRow={5}&maxRows={6}", 
                 Constants.GeoNamesUrl, query, Constants.GeoNamesUsername, type, Constants.SpotsSearchFeatureCodesString, startRow, maxRows);
@@ -107,12 +107,12 @@ namespace WebServices
                 {
                     if (foundSpots <= 1000)
                     {
-                        return JsonConvert.DeserializeObject<List<FeatureViewModel>>(jobj["geonames"].ToString());
+                        return JsonConvert.DeserializeObject<List<GNFeatureViewModel>>(jobj["geonames"].ToString());
                     }
                     else 
                     {
                         foundSpots = foundSpots <= _geonamesLimit ? foundSpots : _geonamesLimit;
-                        list = list.Concat(JsonConvert.DeserializeObject<List<FeatureViewModel>>(jobj["geonames"].ToString())).ToList();
+                        list = list.Concat(JsonConvert.DeserializeObject<List<GNFeatureViewModel>>(jobj["geonames"].ToString())).ToList();
                         do
                         {
                             startRow += maxRows;

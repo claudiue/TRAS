@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GNFeatureViewModel.cs" />
     <Compile Include="ItineraryClientViewModel.cs" />
     <Compile Include="ItineraryViewModel.cs" />
     <Compile Include="PersonViewModel.cs" />
