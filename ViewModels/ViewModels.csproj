@@ -39,7 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AgentViewModel.cs" />
+    <Compile Include="ItineraryViewModel.cs" />
+    <Compile Include="PersonViewModel.cs" />
     <Compile Include="FeatureViewModel.cs" />
     <Compile Include="NearbyViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

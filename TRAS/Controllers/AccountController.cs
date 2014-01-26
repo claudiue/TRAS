@@ -114,7 +114,7 @@ namespace TRAS.Controllers
                 {
                     // TODO Save user in graph
 
-                    var agentVM = new AgentViewModel() 
+                    var paersonVM = new PersonViewModel() 
                     {
                         Id = user.UserName, 
                         Email = user.Email,
@@ -122,7 +122,7 @@ namespace TRAS.Controllers
                     };
 
                     var db = StardogDb.GetInstance();
-                    db.Update(agentVM);
+                    db.CreateOrUpdatePerson(paersonVM);
 
                     SendEmailConfirmation(model.Email, model.UserName, confirmationToken);
                     //await SignInAsync(user, isPersistent: false);
