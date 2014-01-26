@@ -1,0 +1,71 @@
+﻿@model IEnumerable<ViewModels.ItineraryViewModel>
+
+@{
+    ViewBag.Title = "My Itineraries";
+}
+
+<h2>My Itineraries</h2>
+
+<p>
+    @Html.ActionLink("All Itineraries", "Index") |
+    @Html.ActionLink("New", "Index", "Planning")
+</p>
+<div class="container">
+    <div class="col-md-8">
+        <table class="table">
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Budget
+                </th>
+                <th>
+                    Number of Days
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </th>*@
+                <th>
+                    Rating
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Budget)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NrOfDays)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rating)
+                    </td>
+                    <td>
+@*                      @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |*@
+                        @Html.ActionLink("Details", "UserItineraryDetails", new { id = item.Id }) 
+                        @*@Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+
+

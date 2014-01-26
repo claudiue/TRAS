@@ -76,6 +76,7 @@ namespace ViewModels
         public string name { get; set; }
         public int budget { get; set; }
         public int days { get; set; }
+        public int rating { get; set; }
         public List<Location> locations { get; set; }
     }
 

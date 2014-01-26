@@ -27,6 +27,11 @@ namespace TRAS.Controllers
 
         public ActionResult Edit(string id)
         {
+            var username = User.Identity.Name;
+            if (!id.Equals(username))
+            {
+                return RedirectToAction("Profile", null, new { id = username });
+            }
             PersonViewModel personVM = null;
             if (!string.IsNullOrEmpty(id))
             {
@@ -42,6 +47,21 @@ namespace TRAS.Controllers
             var db = StardogDb.GetInstance();
             db.CreateOrUpdatePerson(personVM);
             return RedirectToAction("Index", "UserProfile");
+        }
+
+        public ActionResult Profile(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            PersonViewModel personVM = null;
+            if (!string.IsNullOrEmpty(id))
+            {
+                var db = StardogDb.GetInstance();
+                personVM = db.GetPerson(id);
+            }
+            return View(personVM);
         }
 	}
 }

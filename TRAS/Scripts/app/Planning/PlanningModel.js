@@ -375,7 +375,8 @@ function PlanningModel() {
             name: self.itineraryName(),
             budget: self.budget(),
             days: self.nrDays(),
-            locations: self.locations()
+            locations: self.locations(),
+            rating: self.rating()
         };
 
         console.log(itinerary);
@@ -388,6 +389,7 @@ function PlanningModel() {
             success: function (data, textStatus, jqXHR) {
 
                 //console.log(data);
+                $(location).attr('href', "/Itineraries/UserItineraries/");
 
             },
             error: function (jqXHR, textStatus, errorThrown) {

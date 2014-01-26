@@ -9,16 +9,9 @@ namespace TRAS.Tests.TripleStore.Stardog
     public class StardogDbTest
     {
         [TestMethod]
-        public void CreatePerson()
+        public void CreatePersonWithInterests()
         {
             var db = StardogDb.GetInstance();
-
-            PersonViewModel personVM = new PersonViewModel()
-            {
-                Id = "cepure",
-                NickName = "cepure",
-                Email = "claudiu.epure@gmail.com"
-            };
 
             PersonViewModel personVM2 = new PersonViewModel()
             {
@@ -30,6 +23,24 @@ namespace TRAS.Tests.TripleStore.Stardog
                 LastName = "Tiron",
                 Gender = "F"
             };
+
+            ThingViewModel t1 = new ThingViewModel()
+            {
+                Id = Utils.GetID("th"),
+                Name = "Seaside"
+            };
+
+            ThingViewModel t2 = new ThingViewModel()
+            {
+                Id = Utils.GetID("th"),
+                Name = "Work"
+            };
+
+            db.CreateOrUpdateThing(t1);
+            db.CreateOrUpdateThing(t2);
+
+            personVM2.Intersts.Add(t1);
+            personVM2.Intersts.Add(t2);
 
             db.CreateOrUpdatePerson(personVM2);
         }
@@ -50,8 +61,20 @@ namespace TRAS.Tests.TripleStore.Stardog
                 EndDate = new DateTime(2014, 5, 28),
                 Creator = new PersonViewModel() { Id = "atiron" }
             };
-             
-            db.CreateOrUpdateItinerary(itinVM);
+
+            ItineraryViewModel itinVM0 = new ItineraryViewModel()
+            {
+                Id = "itin2",
+                Name = "New York - Paris",
+                Rating = 6,
+                Budget = 10000.5,
+                NrOfDays = 4,
+                StartDate = new DateTime(2014, 8, 5),
+                EndDate = new DateTime(2014, 8, 9),
+                Creator = new PersonViewModel() { Id = "cepure" }
+            };
+            
+            db.CreateOrUpdateItinerary(itinVM0);
         }
 
         [TestMethod]
@@ -66,6 +89,56 @@ namespace TRAS.Tests.TripleStore.Stardog
         {
             var db = StardogDb.GetInstance();
             var itinVM = db.GetItinerary("itin1");
+        }
+
+        [TestMethod]
+        public void GetItineraries()
+        {
+            var db = StardogDb.GetInstance();
+            var allItins = db.GetItineraries(null);
+            var myItins = db.GetItineraries("cepure");
+        }
+
+        [TestMethod]
+        public void CreateThing()
+        {
+            ThingViewModel t1 = new ThingViewModel()
+            {
+                Id = Utils.GetID("th"),
+                Name = "Mountains"
+            };
+
+            ThingViewModel t2 = new ThingViewModel()
+            {
+                Id = Utils.GetID("th"),
+                Name = "Maths"
+            };
+
+            var db = StardogDb.GetInstance();
+            db.CreateOrUpdateThing(t1);
+            db.CreateOrUpdateThing(t2);
+        }
+
+        [TestMethod]
+        public void CreatePersonWithFollowing()
+        {
+            PersonViewModel personVM = new PersonViewModel()
+            {
+                Id = "cepure",
+                NickName = "cepure",
+                Email = "claudiu.epure@gmail.com"
+            };
+
+            personVM.Following.Add(new PersonViewModel(){Id = "atiron"});
+
+            var db = StardogDb.GetInstance();
+            db.CreateOrUpdatePerson(personVM);
+        }
+
+        [TestMethod]
+        public void CreatePlace()
+        {
+            PlaceViewModel place = new PlaceViewModel();
         }
     }
 }

@@ -187,6 +187,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ItinerariesController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\PlanningController.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />
@@ -276,6 +277,11 @@
     <Content Include="Views\UserProfile\IndexOld.cshtml" />
     <Content Include="Views\UserProfile\Edit.cshtml" />
     <Content Include="Views\UserProfile\Index.cshtml" />
+    <Content Include="Views\Itineraries\Index.cshtml" />
+    <Content Include="Views\Itineraries\UserItineraries.cshtml" />
+    <Content Include="Views\Itineraries\UserItineraryDetails.cshtml" />
+    <Content Include="Views\Itineraries\ItineraryDetails.cshtml" />
+    <Content Include="Views\UserProfile\Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

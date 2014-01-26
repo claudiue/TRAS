@@ -8,6 +8,12 @@ namespace ViewModels
 {
     public class PersonViewModel
     {
+        public PersonViewModel()
+        {
+            this.Following = new List<PersonViewModel>();
+            this.Intersts = new List<ThingViewModel>();
+        }
+
         public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -15,6 +21,8 @@ namespace ViewModels
         public string Gender { get; set; }
         public int Age { get; set; }
         public string Email { get; set; }
+        public IList<PersonViewModel> Following { get; set; }
+        public IList<ThingViewModel> Intersts { get; set; }
 
         public string Location { get; set; }
 

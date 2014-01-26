@@ -8,6 +8,11 @@ namespace ViewModels
 {
     public class ItineraryViewModel
     {
+        public ItineraryViewModel()
+        {
+            this.Features = new List<FeatureViewModel>();
+        }
+
         public string Id { get; set; }
         public string Name { get; set; }
         public int Rating { get; set; }
@@ -16,5 +21,6 @@ namespace ViewModels
         public PersonViewModel Creator { get; set; } 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public IList<FeatureViewModel> Features { get; set; }
     }
 }
