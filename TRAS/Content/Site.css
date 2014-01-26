@@ -40,3 +40,11 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+
+#items>li:hover{
+    background-color:#eee;
+}
+
+#items >li.active {
+    background-color:#3276b1;
+}

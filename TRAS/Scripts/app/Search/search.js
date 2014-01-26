@@ -1,14 +1,14 @@
 ﻿$(document).ready(function () {
+    $('#items').hide();
+    $("#entries").hide();
     $('#searchForm').submit(function (event) {
-        
         event.preventDefault();
         var item = $('#search').val();
-        $('#content').hide();
-        $('#main').append('<ul id =\"items\"></ul>');
         $('#items').show();
         $('#items').empty();
         $('#entries').empty();
-        $('#entries').hide();
+
+        $('#entries').empty();
         $('#paginator').hide();
         $.ajax({
             type: "POST",
@@ -41,33 +41,35 @@
                         ||  data.spots[i].Fcode == "THTR" ||  data.spots[i].Fcode == "RSRT")
                         entertaining.push(data.spots[i]);
                 }
-                $("#main").append('<ul id=\"entries\"></ul>');
-                $('#main').append('<div id=\"paginator\"></div>');
+                $('#entry-list').append('<ul id=\'entries\'></ul>');
+                $('#entry-list').append('<div id=\"paginator\"></div>');
                 if (attractions.length != 0) 
-                $('#items').append("<li class=\"thumbnail\" id=\"attr\"><p>Attractions(" + attractions.length + ")</p></li>");
+                    $('#items').append("<li id=\"attr\" class=\"active\"><strong>Attractions (" + attractions.length + ")</strong><i class=\"glyphicon glyphicon-chevron-right grey pull-right\"></i></li>");
                 if(accomodation.length!=0)
-                    $('#items').append("<li class=\"thumbnail\" id=\"acc\"><p>Accomodation(" + accomodation.length + ")</p></li>");
+                    $('#items').append("<li id=\"acc\"><strong>Accomodation (" + accomodation.length + ")</strong><i class=\"glyphicon glyphicon-chevron-right pull-right\"></i></li>");
                 if(restaurants.length!=0)
-                    $('#items').append("<li class=\"thumbnail\" id=\"rest\"><p>Restaurants(" + restaurants.length + ")</p></li>");
+                    $('#items').append("<li id=\"rest\"><strong>Restaurants (" + restaurants.length + ")</strong><i class=\"glyphicon glyphicon-chevron-right pull-right\"></i></li>");
                 if(transportation.length!=0)
-                    $('#items').append("<li class=\"thumbnail\" id=\"transp\"><p>Transportation(" + transportation.length + ")</p></li>");
+                    $('#items').append("<li id=\"transp\"><strong>Transportation (" + transportation.length + ")</strong><i class=\"glyphicon glyphicon-chevron-right pull-right\"></i></li>");
                 if(entertaining.length!=0)
-                    $('#items').append("<li class=\"thumbnail\" id=\"ent\"><p>Entertainment("+entertaining.length+")</p></li>");
-                $('#return').click(function (e) { $("#entries").hide(); $("#items").visible();})
-                debugger;
-                searchManager.pagination("#attr", attractions);
-                searchManager.pagination("#acc", accomodation);
-                searchManager.pagination("#rest", restaurants);
-                searchManager.pagination("#transp", transportation);
-                searchManager.pagination("#ent", entertaining);
+                    $('#items').append("<li id=\"ent\"><strong>Entertainment (" + entertaining.length + ")</strong><i class=\"glyphicon glyphicon-chevron-right pull-right\"></i></li>");
+                $('#return').click(function (e) { $("#entries").hide(); $("#items").visible(); });
+
+                $("#attr").on("click", function (e) { searchManager.pagination("#attr", attractions) });
+                $("#attr").trigger("click");
+                $("#acc").on("click",function(e){searchManager.pagination("#acc", accomodation)});
+                $("#rest").on("click",function(e){searchManager.pagination("#rest", restaurants)});
+                $("#transp").on("click",function(e){searchManager.pagination("#transp", transportation)});
+                $("#ent").on("click",function (e) { searchManager.pagination("#ent", entertaining)});
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 var resp = JSON.parse(jqXHR.responseText);
                 alert(errorThrown);
             }
         });
+        $("#attr").trigger("click");
        
-      
+
     });
 
 });
