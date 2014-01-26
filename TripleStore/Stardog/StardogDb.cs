@@ -50,32 +50,57 @@ namespace TripleStore.Stardog
         }
 
         #region Person
-        public void CreateOrUpdatePerson(PersonViewModel personVM)
+        public void CreateOrUpdatePerson(PersonViewModel newPersonVM)
         {
+            if (newPersonVM == null || newPersonVM.Id == null)
+                return;
+
             NodeFactory factory = new NodeFactory();
             List<Triple> toAdd = new List<Triple>();
+            List<Triple> toRemove = new List<Triple>();
 
-            var subject = factory.CreateUriNode(new Uri(string.Format("{0}{1}", URIs.TRAS, personVM.Id)));
+            PersonViewModel oldPersonVM = GetPerson(newPersonVM.Id);
 
+            var subject = factory.CreateUriNode(new Uri(string.Format("{0}{1}", URIs.TRAS, newPersonVM.Id)));
+
+            if (oldPersonVM != null & oldPersonVM.Id == newPersonVM.Id)
+            {
+                toRemove.Add(new Triple(subject, factory.CreateUriNode(new Uri(rdf("type"))), factory.CreateUriNode(new Uri(foaf("Person")))));
+                if (oldPersonVM.Email != null)
+                    toRemove.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("mbox"))), oldPersonVM.MailToEmail.ToLiteral(factory)));
+                if (oldPersonVM.NickName != null)
+                    toRemove.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("nickname"))), oldPersonVM.NickName.ToLiteral(factory)));
+                if (oldPersonVM.FirstName != null)
+                    toRemove.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("firstName"))), oldPersonVM.FirstName.ToLiteral(factory)));
+                if (oldPersonVM.LastName != null)
+                    toRemove.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("lastName"))), oldPersonVM.LastName.ToLiteral(factory)));
+                if (oldPersonVM.Age > 0)
+                    toRemove.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("age"))), oldPersonVM.Age.ToLiteral(factory)));
+                if (oldPersonVM.Gender != null)
+                    toRemove.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("gender"))), oldPersonVM.Gender.ToLiteral(factory)));
+                if (oldPersonVM.Location != null)
+                    toRemove.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("location"))), oldPersonVM.Location.ToLiteral(factory)));
+            }
+            
             toAdd.Add(new Triple(subject, factory.CreateUriNode(new Uri(rdf("type"))), factory.CreateUriNode(new Uri(foaf("Person")))));
-            if (personVM.Email != null)
-                toAdd.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("mbox"))), personVM.MailToEmail.ToLiteral(factory)));
-            if (personVM.NickName != null)
-                toAdd.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("nickname"))), personVM.NickName.ToLiteral(factory)));
-            if (personVM.FirstName != null)
-                toAdd.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("firstName"))), personVM.FirstName.ToLiteral(factory)));
-            if (personVM.LastName != null)
-                toAdd.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("lastName"))), personVM.LastName.ToLiteral(factory)));
-            if (personVM.Age > 0)
-                toAdd.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("age"))), personVM.Age.ToLiteral(factory)));
-            if (personVM.Gender != null)
-                toAdd.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("gender"))), personVM.Gender.ToLiteral(factory)));
-            if (personVM.Location != null)
-                toAdd.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("location"))), personVM.Location.ToLiteral(factory)));
+            if (newPersonVM.Email != null)
+                toAdd.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("mbox"))), newPersonVM.MailToEmail.ToLiteral(factory)));
+            if (newPersonVM.NickName != null)
+                toAdd.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("nickname"))), newPersonVM.NickName.ToLiteral(factory)));
+            if (newPersonVM.FirstName != null)
+                toAdd.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("firstName"))), newPersonVM.FirstName.ToLiteral(factory)));
+            if (newPersonVM.LastName != null)
+                toAdd.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("lastName"))), newPersonVM.LastName.ToLiteral(factory)));
+            if (newPersonVM.Age > 0)
+                toAdd.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("age"))), newPersonVM.Age.ToLiteral(factory)));
+            if (newPersonVM.Gender != null)
+                toAdd.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("gender"))), newPersonVM.Gender.ToLiteral(factory)));
+            if (newPersonVM.Location != null)
+                toAdd.Add(new Triple(subject, factory.CreateUriNode(new Uri(foaf("location"))), newPersonVM.Location.ToLiteral(factory)));
             
             using(var connector = new StardogManager().GetConnector(DefaultName))
             {
-                connector.UpdateGraph(new Uri(StardogConstants.DefaultGraphName), toAdd, null);
+                connector.UpdateGraph(new Uri(StardogConstants.DefaultGraphName), toAdd, toRemove);
             }
         }
 

@@ -1,0 +1,26 @@
+﻿@section userProfileScript{
+    <script src="~/Scripts/knockout-3.0.0.js"></script>
+    <script src="~/Scripts/app/UserProfile/UserProfileModel.js"></script>
+}
+
+<div style="margin-top:100px;">
+
+    <a href="#" onclick="performClick(document.getElementById('theFile'));">
+        <img src="~/Content/images/default.jpg" alt="default" />
+    </a>
+    <input type="file" id="theFile" @*style="display:none"*@ />
+
+    <p>First name: <input data-bind="value: firstName" /></p>
+    <p>Last name: <input data-bind="value: lastName" /></p>
+    <p>
+        Gender: @*<input data-bind="value: gender" />*@
+
+        <input type="radio" name="genderGroup" value="male" data-bind="checked: genderValue" /> M
+        <input type="radio" name="genderGroup" value="female" data-bind="checked: genderValue" /> F
+    </p>
+    <p>Age: <input data-bind="value: age" /></p>
+    <p>Location: <input data-bind="value: location" /></p>
+    <form data-bind="submit: sendData">
+        <button type="submit"> Save </button>
+    </form>
+</div>

@@ -1,26 +1,100 @@
-﻿@section userProfileScript{
-    <script src="~/Scripts/knockout-3.0.0.js"></script>
-    <script src="~/Scripts/app/UserProfile/UserProfileModel.js"></script>
+﻿@model ViewModels.PersonViewModel
+
+@{
+    ViewBag.Title = "My Profile";
 }
 
-<div style="margin-top:100px;">
+<h2>My Profile</h2>
 
-    <a href="#" onclick="performClick(document.getElementById('theFile'));">
-        <img src="~/Content/images/default.jpg" alt="default" />
-    </a>
-    <input type="file" id="theFile" @*style="display:none"*@ />
+<div>
+    <h4>Basic Info</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @{
+            if (Model.FirstName != null)
+            {
+                <dt>
+                    First Name
+                </dt>
 
-    <p>First name: <input data-bind="value: firstName" /></p>
-    <p>Last name: <input data-bind="value: lastName" /></p>
-    <p>
-        Gender: @*<input data-bind="value: gender" />*@
+                <dd>
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+            }
+        }
 
-        <input type="radio" name="genderGroup" value="male" data-bind="checked: genderValue" /> M
-        <input type="radio" name="genderGroup" value="female" data-bind="checked: genderValue" /> F
-    </p>
-    <p>Age: <input data-bind="value: age" /></p>
-    <p>Location: <input data-bind="value: location" /></p>
-    <form data-bind="submit: sendData">
-        <button type="submit"> Save </button>
-    </form>
+        @{
+            if (!string.IsNullOrEmpty(Model.LastName))
+            {
+                <dt>
+                    Last Name
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+            }
+        }
+        @{
+            if (!string.IsNullOrEmpty(Model.NickName))
+            {
+                <dt>
+                    Nickname
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.NickName)
+                </dd>
+            }
+        }
+        @{
+            if (!string.IsNullOrEmpty(Model.Gender))
+            {
+                <dt>
+                    Gender
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Gender)
+                </dd>
+            }
+        }
+        <dt>
+            Age
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+
+        @{
+            if (!string.IsNullOrEmpty(Model.Email))
+            {
+                <dt>
+                    Email
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+            }
+        }
+
+        @{
+            if (!string.IsNullOrEmpty(Model.Location))
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.Location)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Location)
+                </dd>
+            }
+        }
+
+    </dl>
 </div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+</p>

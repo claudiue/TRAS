@@ -28,8 +28,7 @@ namespace TRAS.Tests.TripleStore.Stardog
                 Age = 23, 
                 FirstName = "Andreea", 
                 LastName = "Tiron",
-                Gender = "F",
-                Location = "Iasi"
+                Gender = "F"
             };
 
             db.CreateOrUpdatePerson(personVM2);

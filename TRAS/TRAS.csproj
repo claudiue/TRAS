@@ -271,6 +271,8 @@
     <Content Include="Views\Emails\EmailTemplate.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Planning\Index.cshtml" />
+    <Content Include="Views\UserProfile\IndexOld.cshtml" />
+    <Content Include="Views\UserProfile\Edit.cshtml" />
     <Content Include="Views\UserProfile\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
