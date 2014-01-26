@@ -38,7 +38,4 @@
             $('#entries').html(content);
         });
     }
-};
-
-
-        
+};      
