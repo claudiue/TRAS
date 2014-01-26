@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -38,6 +39,12 @@ namespace TRAS.Controllers
         {
             var spots = new GeoNamesAgent().SearchSpots(model.Query, "json");
             return Json(new { spots = spots });
+        }
+
+        [HttpPost]
+        public void SaveItinerary(ItineraryClientViewModel itinerary) 
+        {
+            //var jobj = JObject.Parse(itinerary);
         }
 	}
 }
