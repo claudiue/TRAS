@@ -71,13 +71,6 @@
             }
         });
         $("#attr").trigger("click");
-<<<<<<< HEAD
-        var playListURL = 'http://en.wikipedia.org/w/api.php?format=json&action=query&titles=India&prop=revisions&rvprop=content&rvsection=0&callback=?';
-      
-       
-        
 
-=======
->>>>>>> a4fa3d42d6afc9304c308a98cbd0c2586d3bd8a5
     });
 });

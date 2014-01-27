@@ -11,7 +11,7 @@
         else
             maxim = 10;
         for (var a = 0; a < maxim; a++)
-            $('#entries').append("<li class=\"thumbnail\" id=\"test\" onclick=\"location.href=\'#details\'\"><h4>" + array[a].Name + "</h4></li>");
+            $('#entries').append("<li class=\"thumbnail\" id=\"test\"><a href =\"#details\"><h4>" + array[a].Name + "</h4></a></li>");
        
         var l = array.length%10==0? array.length / 10:array.length / 10 + 1;
         $('#paginator').bootpag({

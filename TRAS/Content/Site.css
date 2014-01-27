@@ -60,12 +60,15 @@ input[type="checkbox"].input-validation-error {
 #items>li
 {
     padding:5px;
+    cursor:pointer;
 }
 
 #entries,#entry-list{
       padding:0px;
 }
-
+#entries li{
+    cursor:pointer;
+}
 #paginator{
     margin-left:25%;
 }

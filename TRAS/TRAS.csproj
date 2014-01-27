@@ -215,6 +215,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\app\Planning\PlanningMain.js" />
     <Content Include="Scripts\app\Planning\PlanningModel.js" />
+    <Content Include="Scripts\app\Search\details.js" />
     <Content Include="Scripts\app\Search\search.js" />
     <Content Include="Scripts\app\Search\searchModules.js" />
     <Content Include="Scripts\app\UserProfile\UserProfileModel.js" />
