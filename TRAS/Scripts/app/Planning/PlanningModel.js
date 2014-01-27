@@ -229,6 +229,7 @@ function PlanningModel() {
 
     self.showMap = function () {
 
+        
         if (flightPath !== undefined) {
             flightPath.setMap(null); // remove the line
         }
@@ -239,6 +240,27 @@ function PlanningModel() {
         };
 
         map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+       
+        var clearMapControl = document.createElement('button');
+        var t = document.createTextNode("Clear map");
+        clearMapControl.appendChild(t);
+        google.maps.event.addDomListener(clearMapControl, 'click', function () {
+            clearMarkers();
+        });
+
+        var geolocateMeControl = document.createElement('button');
+        var geoTitle = document.createTextNode("?");
+        geolocateMeControl.appendChild(geoTitle);
+        google.maps.event.addDomListener(geolocateMeControl, 'click', function () {
+            self.geolocateMe();
+        });
+
+        clearMapControl.index = 1;
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(clearMapControl);
+        geolocateMeControl.index = 1;
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(geolocateMeControl);
+
     }
 
     self.geolocateMe = function () {

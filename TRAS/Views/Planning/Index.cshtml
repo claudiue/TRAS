@@ -23,12 +23,12 @@
                 <div class="form-group">
                     <input data-bind="value: queryValue" class="form-control" placeholder="What do you want to visit?" />
                     <button type="submit" class="btn btn-primary">Add</button>
-                    <button data-bind="click: geolocateMe" id="geolocateMe" class="btn btn-info"> Where am I? </button>
+                    @*<button data-bind="click: geolocateMe" id="geolocateMe" class="btn btn-info"> Where am I? </button>*@
 
                 </div>
             </form>
 
-            <button data-bind="click: clearMarkers" id="clearMarkers" class="btn btn-info"> Clear </button>
+            @*<button data-bind="click: clearMarkers" id="clearMarkers" class="btn btn-info"> Clear </button>*@
 
             <div itemscope itemtype="http://schema.org/Place">
                 <ul data-bind="foreach: locations, visible: locations().length > 0">
