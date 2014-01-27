@@ -5,6 +5,9 @@ function PlanningModel() {
 
     self.locations = ko.observableArray([]);
 
+    self.photoValue = ko.observable();
+    self.images - ko.observableArray([{URI: "kuhfewl", Title: "jegf"}]);
+
     // locations list + map
     self.query = ko.observable("");
     self.queryValue = ko.observable();
@@ -108,7 +111,7 @@ function PlanningModel() {
 
                 showMarker(data.Name, data.Latitude, data.Longitude);
                 self.locations.push({ locationData: data, features: [] });
-
+                self.checkPlace(item);
                 
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -119,14 +122,8 @@ function PlanningModel() {
     };
 
     self.checkPlace = function (item) {
-
-        console.log(self.places());
-       // console.log(self.locations());
-
-
-        //self.itineraryPlaces.push({ data: item.data, features: null});
-
-        if (self.places().length > 1) {
+        
+        if (self.locations().length > 1) {
             self.drawPath();
         } else {
             for (i = 0; i < line.length; i++) {
@@ -143,19 +140,6 @@ function PlanningModel() {
 
         document.getElementById("spotsList").innerHTML = "";
 
-        //for (var i = 0; i < self.allFeatures().length; i++) {
-        //    for (var j = 0; j < self.locations().length; j++) {
-        //        for (var k = 0; k < self.locations()[j].features.length; k++) {
-        //            if (self.allFeatures()[i] == self.locations()[j].features[k].data.spotData.Name) {
-        //                remove_item(self.allFeatures(), itemValue);
-        //            }
-        //        }
-        //    }
-        //}
-
-        //console.log(self.locations());
-        //console.log(self.allFeatures());
-
         self.locations.remove(item);
         item.features = [];
         self.allFeatures = [];
@@ -165,9 +149,9 @@ function PlanningModel() {
         //self.places.remove(itemValue);
         
         //remove_item(self.locations, itemValue);
-        removeMarker(itemValue);
+        removeMarker(item);
 
-        //self.drawPath();
+        self.drawPath();
     };
 
     remove_item = function (arr, value) {
@@ -178,6 +162,26 @@ function PlanningModel() {
             }
         }
         return arr;
+    }
+    markersSpotsArray = [];
+    showSpotMarker = function (parent, name, lat, lng) {
+
+        //console.log(parent);
+        //console.log(name);
+        
+        var myLatlng = new google.maps.LatLng(lat, lng);
+
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            loc: name
+        });
+        markersSpotsArray.push({ parent: parent, value: name, marker: marker });
+        //console.log(markersSpotsArray);
+        //map.setZoom(10);
+        //map.setCenter(myLatlng);
+
+        self.zoomAtClick(marker);
     }
 
     showMarker = function (name, lat, lng) {
@@ -191,19 +195,35 @@ function PlanningModel() {
         });
         markersArray.push({ value: name, marker: marker });
 
-        //map.setZoom(10);
-        //map.setCenter(myLatlng);
+        map.setZoom(10);
+        map.setCenter(myLatlng);
 
         //self.zoomAtClick(marker);
     }
 
     removeMarker = function (item) {
+
+        var itemValue = item.locationData.Name;
+        var parent = item.locationData.AdminName1;
+
+        if (markersSpotsArray.length > 0) {
+            for (var i = 0; i < markersArray.length; i++) {
+                //console.log(markersSpotsArray[i]);
+                if (markersSpotsArray[i].value == itemValue && markersSpotsArray[i].parent == parent) {
+                    markersSpotsArray[i].marker.setMap(null);
+                    markersSpotsArray.splice(i, 1);
+                    //path.splice(i, 1);
+                }
+            }
+        }
+
         for (var i = 0; i < markersArray.length; i++) {
-            if (markersArray[i].value == item) {
+            if (markersArray[i].value == itemValue) {
                 markersArray[i].marker.setMap(null);
                 markersArray.splice(i, 1);
                 path.splice(i, 1);
             }
+
         }
     }
 
@@ -226,13 +246,20 @@ function PlanningModel() {
         // Try HTML5 geolocation
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
+                
                 var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
+                var marker = new google.maps.Marker({
+                    position: pos,
+                    map: map,
+                    loc: name
+                });
                 var infowindow = new google.maps.InfoWindow({
                     map: map,
                     position: pos,
                     content: 'You are here!'
                 });
+
 
                 map.setCenter(pos);
             });
@@ -253,19 +280,19 @@ function PlanningModel() {
         }
 
         path = [];
-
-        for (var i = 0; i < self.places().length; i++) {
-            for (var j = 0; j < self.locations.length; j++) {
-                if (self.places()[i] == self.locations[j].locationData.Name) {
+        //console.log(self.locations());
+       // for (var i = 0; i < self.places().length; i++) {
+        for (var j = 0; j < self.locations().length; j++) {
+             //   if (self.places()[i] == self.locations[j].locationData.Name) {
                     path.push({
-                        name: self.locations[j].locationData.Name,
-                        lat: self.locations[j].locationData.Latitude,
-                        lng: self.locations[j].locationData.Longitude
+                        name: self.locations()[j].locationData.Name,
+                        lat: self.locations()[j].locationData.Latitude,
+                        lng: self.locations()[j].locationData.Longitude
                     });
-                    break;
+                //    break;
                 }
-            }
-        }
+            //}
+        //}
 
         for (var i = 0; i < path.length; i++) {
             flightPlanCoordinates.push(new google.maps.LatLng(path[i].lat, path[i].lng));
@@ -287,16 +314,20 @@ function PlanningModel() {
     }
 
     clearMarkers = function () {
+
+        console.log(markersArray);
+
         for (var i = 0; i < markersArray.length; i++) {
-            markersArray[i].setMap(null);
+            markersArray[i].marker.setMap(null);
         }
 
         for (var i = 0; i < markersSpotsArray.length; i++) {
-            markersSpotsArray[i].setMap(null);
+            markersSpotsArray[i].marker.setMap(null);
         }
 
         markersSpotsArray = [];
         markersArray = [];
+        path = [];
     }
 
     extendBounds = function () {
@@ -332,11 +363,8 @@ function PlanningModel() {
                 data = data.spots;
                 
                 for (var i = 0; i < data.length; i++) {
-                    //console.log(data[i]);
 
                     self.spots.push({ parentId: id, spotData: data[i] });
-                    //locs.push({ name: data[i].Name, lat: data[i].Lat, lng: data[i].Lng });
-
                     //var latlng = new google.maps.LatLng(data[i].Lat, data[i].Lng);
 
                     //var marker = new google.maps.Marker({
@@ -357,14 +385,17 @@ function PlanningModel() {
 
     showOnMap = function (spot) {
         for (var i = 0; i < self.spots().length; i++) {
+
+            var parent = self.spots()[i].spotData.AdminName1;
             var name = self.spots()[i].spotData.Name;
+
             if (name == spot) {
                 var lat = self.spots()[i].spotData.Lat;
                 var lng = self.spots()[i].spotData.Lng;
 
-                showMarker(name, lat, lng);
-                map.setCenter(new google.maps.LatLng(lat, lng));
-                map.setZoom(13);
+                showSpotMarker(parent, name, lat, lng);
+                //map.setCenter(new google.maps.LatLng(lat, lng));
+                //map.setZoom(13);
             }
         }
     }
@@ -379,7 +410,7 @@ function PlanningModel() {
             rating: self.rating()
         };
 
-        console.log(itinerary);
+        //console.log(itinerary);
 
         $.ajax({
             type: "POST",
@@ -416,4 +447,47 @@ function PlanningModel() {
 
         return true;
     }
+
+    
+
+    self.searchPhotos = function () {
+
+        //console.log(self.photoValue());
+
+        //data = [
+        //            { URI: "http://dalepollak.com/wp-content/uploads/2013/12/bmw_i8_spyder_concept_car.jpg", Title: "" },
+        //            { URI: "http://dalepollak.com/wp-content/uploads/2013/12/bmw_i8_spyder_concept_car.jpg", Title: "" }
+        //];
+
+        //self.images.push({ URI: data[0].URI, Title: data[0].Title });
+        //console.log(self.images);
+        //displayPhotos();
+
+        $.ajax({
+            type: "POST",
+            url: '../Planning/SearchFlickr/',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ query: item }),
+            success: function (data, textStatus, jqXHR) {
+                debugger;
+                console.log(data);
+                //data = [
+                //    { URI: "", Title: "" },
+                //    { URI: "", Title: "" }
+                //];
+                //self.photos().push(data);
+                //displayPhotos();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                var resp = JSON.parse(jqXHR.responseText);
+                alert(errorThrown);
+            }
+        });
+    }
+
+
+    displayPhotos = function () {
+
+    }
+
 }

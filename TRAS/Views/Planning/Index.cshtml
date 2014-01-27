@@ -23,21 +23,25 @@
                 <div class="form-group">
                     <input data-bind="value: queryValue" class="form-control" placeholder="What do you want to visit?" />
                     <button type="submit" class="btn btn-primary">Add</button>
+                    <button data-bind="click: geolocateMe" id="geolocateMe" class="btn btn-info"> Where am I? </button>
+
                 </div>
             </form>
+
+            <button data-bind="click: clearMarkers" id="clearMarkers" class="btn btn-info"> Clear </button>
 
             <div itemscope itemtype="http://schema.org/Place">
                 <ul data-bind="foreach: locations, visible: locations().length > 0">
                     <li>
-                        @*<input type=" checkbox" data-bind="attr: { value: $data.locationData.Name }, checked: $parent.places, click: $parent.checkPlace" />*@
+                        @*<input type="checkbox" data-bind="attr: { value: $data.locationData.Name }, checked: $parent.places, click: $parent.checkPlace" />*@
                         <a href="#" data-bind="click: $parent.searchSpots($data.locationData)">
                             <label itemprop="name" data-bind="text: $data.locationData.Name"></label>
                         </a>
                         <button type="button" data-bind="click: $parent.removeItem" class="close" aria-hidden="true">&times;</button>
                     </li>
                 </ul>
+                
             </div>
-                <button data-bind="click: geolocateMe" id="geolocateMe" class="btn btn-info"> Where am I? </button>
                 @*<button data-bind="click: drawPath, visible: places().length > 1" id="drawPath" class="btn btn-info"> Path </button>*@
             
         </section>
@@ -76,20 +80,37 @@
 
     <h3>Itinerary</h3>
 
-        <section itemscope itemtype="http://schema.org/TouristAttraction" class="col-md-3">
-            <ul data-bind="foreach: locations, visible: locations().length > 0">
-                <li>
-                    <label data-bind="text: $data.locationData.Name"></label>
-                    <ul data-bind="foreach: $data">
-                        <li>
-                            <label itemprop="name" data-bind="text: $data"></label>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </section>
+    <section itemscope itemtype="http://schema.org/TouristAttraction" class="col-md-3">
+        <ul data-bind="foreach: locations, visible: locations().length > 0">
+            <li>
+                <label data-bind="text: $data.locationData.Name"></label>
+                <ul data-bind="foreach: $data">
+                    <li>
+                        <label itemprop="name" data-bind="text: $data"></label>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
 
     <section class="col-md-6">
+
+        <div class="row">
+            <form data-bind="submit: searchPhotos" role="form">
+                <div class="form-group">
+                    <input data-bind="value: photoValue" class="form-control" placeholder="What do you want to see?" />
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        
+            <ul >@*data-bind="foreach: images, visible: images().length > 0">*@
+                <li>
+                    <a href="">
+                        <img src="http://dalepollak.com/wp-content/uploads/2013/12/bmw_i8_spyder_concept_car.jpg" alt="" width="50" height="50">
+                    </a>
+                </li>
+            </ul>
+        </div>
 
         <form data-bind="submit: saveItinerary" class="form-horizontal" role="form">
             <div class="form-group">
