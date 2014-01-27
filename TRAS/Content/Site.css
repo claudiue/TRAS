@@ -48,3 +48,13 @@ input[type="checkbox"].input-validation-error {
 #items >li.active {
     background-color:#3276b1;
 }
+.image {
+    background-color:#eee;
+    width:184px;
+    height:184px;
+}
+.title{
+     background-color:#808080;
+     width:184px;
+     text-align:center;
+}
