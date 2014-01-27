@@ -11,8 +11,8 @@
         else
             maxim = 10;
         for (var a = 0; a < maxim; a++)
-            $('#entries').append("<li class=\"thumbnail\"><h4>" + array[a].Name + "</h4></li>");
-
+            $('#entries').append("<li class=\"thumbnail\" id=\"test\" onclick=\"location.href=\'#details\'\"><h4>" + array[a].Name + "</h4></li>");
+       
         var l = array.length%10==0? array.length / 10:array.length / 10 + 1;
         $('#paginator').bootpag({
             maxVisible: 10,
@@ -34,8 +34,20 @@
                 //console.log(a);
                 if (min < array.length - 10)
                     min = min + 10;
+                
             }
             $('#entries').html(content);
+            $("#entries li").on("click", function (e) {
+                var item = $(this).text();
+                detailsManager.getDetails(item);
+
+               
+            });
+        });
+        $("#entries li").on("click", function (e) {
+            var item = $(this).text();
+            detailsManager.getDetails(item);
+
         });
     }
 };      
