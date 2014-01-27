@@ -1,4 +1,9 @@
-﻿body {
+﻿@font-face
+{
+font-family: CFParis;
+src: url(fonts/CFParis-Regular.ttf);
+}
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
@@ -43,10 +48,26 @@ input[type="checkbox"].input-validation-error {
 
 #items>li:hover{
     background-color:#eee;
+    border-radius:3px;
+    
 }
 
 #items >li.active {
-    background-color:#3276b1;
+    background-color:#2fa3f6;
+    border-radius:3px;
+    
+}
+#items>li
+{
+    padding:5px;
+}
+
+#entries,#entry-list{
+      padding:0px;
+}
+
+#paginator{
+    margin-left:25%;
 }
 .image {
     background-color:#eee;

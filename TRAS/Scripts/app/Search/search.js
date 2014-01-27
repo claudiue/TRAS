@@ -1,6 +1,9 @@
 ﻿$(document).ready(function () {
     $('#items').hide();
+    $('#entry-list').hide();
     $('#searchForm').submit(function (event) {
+        $("#mainImg").hide();
+        $("#entry-list").show();
         $("#submitBtn").prop('disabled', true);
         event.preventDefault();
         var item = $('#search').val();
