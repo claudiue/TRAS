@@ -103,10 +103,10 @@
                 </div>
             </form>
         
-            <ul >@*data-bind="foreach: images, visible: images().length > 0">*@
+            <ul data-bind="foreach: images, visible: images().length > 0">
                 <li>
                     <a href="">
-                        <img src="http://dalepollak.com/wp-content/uploads/2013/12/bmw_i8_spyder_concept_car.jpg" alt="" width="50" height="50">
+                        <img data-bind="attr:{ src: $data.URI }" alt="" width="50" height="50">
                     </a>
                 </li>
             </ul>

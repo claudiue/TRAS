@@ -6,7 +6,7 @@ function PlanningModel() {
     self.locations = ko.observableArray([]);
 
     self.photoValue = ko.observable();
-    self.images - ko.observableArray([{URI: "kuhfewl", Title: "jegf"}]);
+    self.images = ko.observableArray([]);
 
     // locations list + map
     self.query = ko.observable("");
@@ -454,35 +454,39 @@ function PlanningModel() {
 
         //console.log(self.photoValue());
 
-        //data = [
-        //            { URI: "http://dalepollak.com/wp-content/uploads/2013/12/bmw_i8_spyder_concept_car.jpg", Title: "" },
-        //            { URI: "http://dalepollak.com/wp-content/uploads/2013/12/bmw_i8_spyder_concept_car.jpg", Title: "" }
-        //];
+        data = [
+                    { URI: "http://dalepollak.com/wp-content/uploads/2013/12/bmw_i8_spyder_concept_car.jpg", Title: "" },
+                    { URI: "http://dalepollak.com/wp-content/uploads/2013/12/bmw_i8_spyder_concept_car.jpg", Title: "" }
+        ];
+
+        for (var i = 0; i < data.length; i++) {
+            self.images.push({ URI: data[0].URI, Title: data[0].Title });
+        }
 
         //self.images.push({ URI: data[0].URI, Title: data[0].Title });
-        //console.log(self.images);
+        console.log(self.images());
         //displayPhotos();
 
-        $.ajax({
-            type: "POST",
-            url: '../Planning/SearchFlickr/',
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ query: item }),
-            success: function (data, textStatus, jqXHR) {
-                debugger;
-                console.log(data);
-                //data = [
-                //    { URI: "", Title: "" },
-                //    { URI: "", Title: "" }
-                //];
-                //self.photos().push(data);
-                //displayPhotos();
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                var resp = JSON.parse(jqXHR.responseText);
-                alert(errorThrown);
-            }
-        });
+        //$.ajax({
+        //    type: "POST",
+        //    url: '../Planning/SearchFlickr/',
+        //    contentType: "application/json; charset=utf-8",
+        //    data: JSON.stringify({ query: item }),
+        //    success: function (data, textStatus, jqXHR) {
+        //        debugger;
+        //        console.log(data);
+        //        //data = [
+        //        //    { URI: "", Title: "" },
+        //        //    { URI: "", Title: "" }
+        //        //];
+        //        //self.photos().push(data);
+        //        //displayPhotos();
+        //    },
+        //    error: function (jqXHR, textStatus, errorThrown) {
+        //        var resp = JSON.parse(jqXHR.responseText);
+        //        alert(errorThrown);
+        //    }
+        //});
     }
 
 
